@@ -80,6 +80,8 @@ class CardSelect extends HTMLElement {
             if (checkedRankInput) {
                 checkedRankInput.checked = false;
             }
+
+            this.update();
         });
 
         this.update();

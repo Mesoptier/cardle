@@ -18,6 +18,7 @@ function createShuffledDeck() {
 class Game {
     #cards = createShuffledDeck();
     #gameOver = false;
+    #animationActive = false;
 
     #cardStack = document.querySelector('.card-stack');
     /** @type {CardSelect} */
@@ -36,42 +37,73 @@ class Game {
             card.setAttribute('borderradius', '0');
             card.setAttribute('bordercolor', '0');
 
+            const sizer = document.createElement('div');
+            sizer.classList.add('sizer');
+            sizer.append(card);
+
             const li = document.createElement('li');
-            li.append(card);
+            li.append(sizer);
 
             this.#cardStack.append(li);
         })
     }
 
-    guess(cid) {
-        if (this.#gameOver) {
+    async guess(cid) {
+        if (this.#gameOver || this.#animationActive) {
             return;
         }
 
+        this.#animationActive = true;
+
         const actualCid = this.#cards.pop();
-        this.#cardSelect.disableCard(actualCid);
 
         const [rank,, suit] = actualCid.split('-');
-        const topLi = this.#cardStack.lastElementChild;
-        const topCard = topLi.lastElementChild;
-        topCard.setAttribute('suit', suit);
-        topCard.setAttribute('rank', rank);
-        setTimeout(() => {
-            topLi.remove();
-        }, 500);
+        const topCardLi = this.#cardStack.lastElementChild;
+        const topCardSizer = topCardLi.lastElementChild;
 
-        let message = `You guessed ${cid}, top card was ${actualCid}\n\n`;
+        const card = document.createElement('playing-card');
+        card.setAttribute('suit', suit);
+        card.setAttribute('rank', rank);
+        card.setAttribute('borderline', '0');
+        card.setAttribute('borderradius', '0');
+        card.setAttribute('bordercolor', '0');
+        topCardSizer.append(card);
+
+        await delay(0);
+        topCardSizer.classList.add('sizer--animate-flip');
+
+        const messageEl = document.querySelector('#message');
+
         if (cid === actualCid) {
-            message += 'Correct! You win!';
+            messageEl.innerText = 'Correct! You win!';
             this.#gameOver = true;
-        } else if (this.#cards.length === 0) {
-            message += 'Nope. Game over.';
-            this.#gameOver = true;
+            this.#animationActive = false;
         } else {
-            message += 'Nope. Try again!';
+            await delay(250);
+
+            if (this.#cards.length === 0) {
+                messageEl.innerText = 'Nope. Game over.';
+                this.#gameOver = true;
+            } else {
+                messageEl.innerText = 'Nope. Try again!';
+            }
+
+            await delay(250);
+
+            topCardSizer.classList.remove('sizer--animate-flip');
+            topCardSizer.classList.add('sizer--animate-exit');
+
+            await delay(500);
+            this.#animationActive = false;
+            topCardLi.remove();
         }
-        // window.alert(message);
     }
 }
 
 window.game = new Game();
+
+function delay(timeout) {
+    return new Promise((resolve) => {
+        setTimeout(resolve, timeout);
+    });
+}

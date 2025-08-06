@@ -67,6 +67,7 @@ main {
 
 .card-stack {
     flex: 1 0 auto;
+    position: relative;
 
     --max-width: 12rem;
     --aspect-ratio: 0.62; /* Aspect ratio of the full 52-card stack. */
@@ -83,10 +84,15 @@ main {
 
     li {
         width: 100%;
-        display: flex;
-        flex-direction: column;
     }
 
+    .sizer {
+        display: grid;
+        height: fit-content;
+        perspective: 1000px;
+    }
+
+    /* Create stack effect */
     li:not(:first-child) {
         height: .3%;
     }
@@ -97,11 +103,41 @@ main {
     }
 
     playing-card {
+        grid-area: 1/1;
+
         display: flex !important;
         border-radius: 8px;
         padding: 3%;
         border: 1px solid hsl(0deg 0% 60%);
         box-sizing: border-box;
         background: var(--card-white);
+
+        backface-visibility: hidden;
+        transform: rotateY(var(--flip));
+        --flip: 0deg;
+
+        &:nth-child(2) {
+            --flip: 180deg;
+        }
+    }
+
+    .sizer--animate-flip {
+        playing-card {
+            transition: transform 500ms ease;
+            transform: translateZ(50px) rotateY(calc(var(--flip) - 180deg));
+        }
+    }
+
+    .sizer--animate-exit {
+        playing-card:nth-child(1) {
+            display: none !important;
+        }
+
+        playing-card {
+            transition: transform 500ms ease, opacity 400ms ease;
+            transform: translateZ(50px) rotateZ(20deg);
+            transform-origin: 50% 200%;
+            opacity: 0;
+        }
     }
 }
