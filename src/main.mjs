@@ -40,15 +40,15 @@ class Game {
         this.#guessesOutput.value = `${this.#cards.length}`;
         this.#cardSelect.disableCard(actualCid);
 
-        let message;
+        let message = `You guessed ${cid}, top card was ${actualCid}\n\n`;
         if (cid === actualCid) {
-            message = 'Correct! You win!';
+            message += 'Correct! You win!';
             this.#gameOver = true;
         } else if (this.#cards.length === 0) {
-            message = 'Nope. Game over.';
+            message += 'Nope. Game over.';
             this.#gameOver = true;
         } else {
-            message = 'Nope. Try again!';
+            message += 'Nope. Try again!';
         }
         window.alert(message);
     }
