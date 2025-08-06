@@ -17,6 +17,7 @@
 html {
     height: 100%;
     font-family: 'Card Characters', serif;
+    color: var(--card-black);
 }
 
 body {
@@ -35,7 +36,6 @@ header {
     padding: 1rem 0 ;
     text-align: center;
 
-    color: var(--card-black);
     font-size: 1.5rem;
     letter-spacing: 0.2em;
     text-transform: uppercase;
@@ -54,8 +54,17 @@ main {
 }
 
 #deck {
+    position: relative;
+
     flex: 1;
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+#guesses {
+    position: absolute;
+    top: 0;
+    right: 0;
+    opacity: 0.6;
 }

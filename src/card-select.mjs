@@ -83,7 +83,13 @@ class CardSelect extends HTMLElement {
             const suit = formData.get('suit');
             const rank = formData.get('rank');
 
-            alert(`Guessed: ${rank} of ${suit}`);
+            const event = new CustomEvent('guess', {
+                detail: {
+                    suit,
+                    rank,
+                },
+            });
+            this.dispatchEvent(event);
         });
     }
 }

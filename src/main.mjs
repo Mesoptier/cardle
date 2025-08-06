@@ -1,6 +1,9 @@
 import './card-select.mjs';
 import {RANKS, SUITS} from './constants.mjs';
 
+/**
+ * @return {string[]}
+ */
 function createShuffledDeck() {
     const cards = RANKS.flatMap((rank) => SUITS.map((suit) => `${rank}-of-${suit}`));
 
@@ -15,6 +18,20 @@ function createShuffledDeck() {
 class Game {
     #cards = createShuffledDeck();
     #gameOver = false;
+
+    /** @type {CardSelect} */
+    #cardSelect = document.querySelector('card-select');
+    /** @type {HTMLOutputElement} */
+    #guessesOutput = document.querySelector('output[name=guesses]');
+
+    constructor() {
+        this.#cardSelect.addEventListener('guess', (e) => {
+            const { rank, suit } = e.detail;
+            this.guess(`${rank}-of-${suit}`);
+
+            this.#guessesOutput.value = `${this.#cards.length}`;
+        });
+    }
 
     guess(cid) {
         if (this.#gameOver) {
