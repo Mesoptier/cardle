@@ -88,7 +88,7 @@ class Game {
                 messageEl.innerText = 'Nope. Try again!';
             }
 
-            await delay(250);
+            await delay(500);
 
             topCardSizer.classList.remove('sizer--animate-flip');
             topCardSizer.classList.add('sizer--animate-exit');

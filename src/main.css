@@ -124,7 +124,7 @@ main {
     .sizer--animate-flip {
         playing-card {
             transition: transform 500ms ease;
-            transform: translateZ(50px) rotateY(calc(var(--flip) - 180deg));
+            transform: translateZ(50px) translateY(-15px) rotateY(calc(var(--flip) - 180deg));
         }
     }
 
