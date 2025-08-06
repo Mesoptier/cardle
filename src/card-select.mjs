@@ -100,13 +100,17 @@ class CardSelect extends HTMLElement {
 
             if (rankInput.disabled) {
                 rankInput.checked = false;
+                card.removeAttribute('suit');
                 card.setAttribute('rank', '0');
             } else {
                 card.setAttribute('suit', suit);
                 card.setAttribute('rank', rank);
-                label.title = `${rank} of ${suit}`;
-                rankInput.ariaLabel = `${rank} of ${suit}`;
             }
+
+            const title = rankInput.disabled ? 'Disabled card' : `${rank} of ${suit}`;
+            label.title = title;
+            rankInput.ariaLabel = title;
+            card.querySelector('img').alt = title;
         });
 
         guessButton.disabled = rank === null || suit === null;
