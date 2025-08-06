@@ -1,7 +1,6 @@
 :host {
     display: flex;
     flex-direction: column;
-    width: min(calc(100vw - 16px), 30rem);
 }
 
 form {
@@ -96,13 +95,14 @@ label {
         margin: 1rem;
 
         appearance: none;
-        padding: .2rem;
+        padding: .2rem 1rem;
         border: 0;
         border-radius: .3rem;
         background: var(--card-blue);
         color: var(--card-white);
         font: inherit;
-        font-weight: 700;
+        letter-spacing: 0.2em;
+        /* TODO: Fluid font size */
 
         cursor: pointer;
 
