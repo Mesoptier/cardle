@@ -7,7 +7,7 @@ class CardSelect extends HTMLElement {
         const form = this.shadowRoot.querySelector('form');
 
         const suitsContainer = this.shadowRoot.querySelector('.suits');
-        SUITS.forEach((suit) => {
+        SUITS.forEach((suit, index) => {
             const input = document.createElement('input');
             input.type = 'radio';
             input.name = 'suit';
@@ -16,6 +16,10 @@ class CardSelect extends HTMLElement {
             input.addEventListener('change', () => {
                 this.update();
             });
+
+            if (index === 0) {
+                input.checked = true;
+            }
 
             const icon = document.createElement('span');
             icon.innerText = SUIT_SYMBOLS[suit];
@@ -39,7 +43,8 @@ class CardSelect extends HTMLElement {
             });
 
             const card = document.createElement('playing-card');
-            card.setAttribute('rank', '');
+            card.setAttribute('suit', SUITS[0])
+            card.setAttribute('rank', rank);
             card.setAttribute('borderline', '0');
             card.setAttribute('borderradius', '0');
 
@@ -107,8 +112,10 @@ class CardSelect extends HTMLElement {
                 card.setAttribute('rank', rank);
             }
 
-            // TODO: Keep title when flipped over, but add a "(disabled)" suffix?
-            const title = rankInput.disabled ? 'Disabled card' : `${rank} of ${suit}`;
+            let title = `${rank} of ${suit}`;
+            if (rankInput.disabled) {
+                title += ' (flipped)';
+            }
             label.title = title;
             rankInput.ariaLabel = title;
             card.querySelector('img')?.setAttribute('alt', title);
