@@ -28,8 +28,6 @@ class Game {
         this.#cardSelect.addEventListener('guess', (e) => {
             const { rank, suit } = e.detail;
             this.guess(`${rank}-of-${suit}`);
-
-            this.#guessesOutput.value = `${this.#cards.length}`;
         });
     }
 
@@ -39,6 +37,8 @@ class Game {
         }
 
         const actualCid = this.#cards.pop();
+        this.#guessesOutput.value = `${this.#cards.length}`;
+
         let message;
         if (cid === actualCid) {
             message = 'Correct! You win!';
