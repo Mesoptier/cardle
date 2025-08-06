@@ -1,8 +1,8 @@
-const SUITS = ['S', 'H', 'D', 'C'];
-const RANKS = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
+import './card-select.mjs';
+import {RANKS, SUITS} from './constants.mjs';
 
 function createShuffledDeck() {
-    const cards = SUITS.flatMap((suit) => RANKS.map((rank) => `${rank}${suit}`));
+    const cards = RANKS.flatMap((rank) => SUITS.map((suit) => `${rank}-of-${suit}`));
 
     for (let i = cards.length - 1; i > 0; i--) {
         let j = Math.floor(Math.random() * (i + 1));
@@ -34,7 +34,6 @@ class Game {
         }
         window.alert(message);
     }
-
 }
 
 window.game = new Game();

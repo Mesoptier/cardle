@@ -1,0 +1,10 @@
+:root {
+    --card-white: hsl(0deg 0% 100%);
+    --card-red: hsl(0deg 99% 60%);
+    --card-black: hsl(0deg 0% 20%);
+    --card-blue: hsl(240deg 100% 63%);
+}
+
+html {
+    font-family: "Space Grotesk", sans-serif;
+}

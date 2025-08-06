@@ -4,9 +4,25 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <title>Cardle</title>
-    <script src="main.mjs" type="module"></script>
+    <script type="module" src="main.mjs"></script>
+    <script src="lib/elements.cardmeister.full.js" async></script>
+    <link rel="stylesheet" href="main.css">
+    <link rel="preload" as="style" href="card-select.css">
+
+    <!-- TODO: Host font locally. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
 </head>
 <body>
-
+    <card-select>
+        <template shadowrootmode="open">
+            <link rel="stylesheet" href="card-select.css">
+            <form>
+                <div class="suits"></div>
+                <div class="ranks"></div>
+            </form>
+        </template>
+    </card-select>
 </body>
 </html>
