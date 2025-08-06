@@ -81,6 +81,7 @@ class Game {
         } else {
             await delay(250);
 
+            this.#cardSelect.disableCard(actualCid);
             if (this.#cards.length === 0) {
                 messageEl.innerText = 'Nope. Game over.';
                 this.#gameOver = true;
@@ -96,6 +97,7 @@ class Game {
             await delay(500);
             this.#animationActive = false;
             topCardLi.remove();
+            messageEl.innerText = 'Guess the card';
         }
     }
 }
