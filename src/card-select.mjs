@@ -47,6 +47,7 @@ class CardSelect extends HTMLElement {
             card.setAttribute('rank', rank);
             card.setAttribute('borderline', '0');
             card.setAttribute('borderradius', '0');
+            card.setAttribute('bordercolor', 'transparent');
 
             const label = document.createElement('label');
             label.title = rank;

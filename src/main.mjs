@@ -19,16 +19,28 @@ class Game {
     #cards = createShuffledDeck();
     #gameOver = false;
 
+    #cardStack = document.querySelector('.card-stack');
     /** @type {CardSelect} */
     #cardSelect = document.querySelector('card-select');
-    /** @type {HTMLOutputElement} */
-    #guessesOutput = document.querySelector('output[name=guesses]');
 
     constructor() {
         this.#cardSelect.addEventListener('guess', (e) => {
             const { rank, suit } = e.detail;
             this.guess(`${rank}-of-${suit}`);
         });
+
+        this.#cards.forEach(() => {
+            const card = document.createElement('playing-card');
+            card.setAttribute('rank', '0');
+            card.setAttribute('borderline', '0');
+            card.setAttribute('borderradius', '0');
+            card.setAttribute('bordercolor', '0');
+
+            const li = document.createElement('li');
+            li.append(card);
+
+            this.#cardStack.append(li);
+        })
     }
 
     guess(cid) {
@@ -37,8 +49,16 @@ class Game {
         }
 
         const actualCid = this.#cards.pop();
-        this.#guessesOutput.value = `${this.#cards.length}`;
         this.#cardSelect.disableCard(actualCid);
+
+        const [rank,, suit] = actualCid.split('-');
+        const topLi = this.#cardStack.lastElementChild;
+        const topCard = topLi.lastElementChild;
+        topCard.setAttribute('suit', suit);
+        topCard.setAttribute('rank', rank);
+        setTimeout(() => {
+            topLi.remove();
+        }, 500);
 
         let message = `You guessed ${cid}, top card was ${actualCid}\n\n`;
         if (cid === actualCid) {
@@ -50,7 +70,7 @@ class Game {
         } else {
             message += 'Nope. Try again!';
         }
-        window.alert(message);
+        // window.alert(message);
     }
 }
 

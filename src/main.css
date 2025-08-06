@@ -22,16 +22,18 @@ html {
 
 body {
     height: 100%;
-    margin: 0;
+    margin: 0 auto;
+    width: calc(min(100vw, 32rem) - 2rem);
 
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: stretch;
 }
 
 header {
     flex: 0;
-    width: calc(min(100vw, 32rem) - 2rem);
+    width: 100%;
 
     padding: 1rem 0 ;
     text-align: center;
@@ -47,24 +49,59 @@ main {
     flex: 1;
     display: flex;
     flex-direction: column;
+    align-items: center;
     box-sizing: border-box;
-    width: min(100vw, 32rem);
-    padding: 1rem;
+    margin: 1rem 0;
     gap: 1rem;
 }
 
-#deck {
-    position: relative;
+.card-area {
+    flex: 1 0 auto;
+    width: 100%;
 
-    flex: 1;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
 }
 
-#guesses {
-    position: absolute;
-    top: 0;
-    right: 0;
-    opacity: 0.6;
+.card-stack {
+    flex: 1 0 auto;
+
+    --max-width: 12rem;
+    --aspect-ratio: 0.62; /* Aspect ratio of the full 52-card stack. */
+
+    aspect-ratio: var(--aspect-ratio);
+    max-width: var(--max-width);
+    max-height: calc(var(--max-width) / var(--aspect-ratio));
+
+    display: flex;
+    flex-direction: column-reverse;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    li {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    li:not(:first-child) {
+        height: .3%;
+    }
+    li:nth-child(2n):not(:last-child) {
+        playing-card {
+            border-bottom-color: hsl(0deg 0% 80%);
+        }
+    }
+
+    playing-card {
+        display: flex !important;
+        border-radius: 8px;
+        padding: 3%;
+        border: 1px solid hsl(0deg 0% 60%);
+        box-sizing: border-box;
+        background: var(--card-white);
+    }
 }
