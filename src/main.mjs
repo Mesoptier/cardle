@@ -38,6 +38,7 @@ class Game {
 
         const actualCid = this.#cards.pop();
         this.#guessesOutput.value = `${this.#cards.length}`;
+        this.#cardSelect.disableCard(actualCid);
 
         let message;
         if (cid === actualCid) {

@@ -1,6 +1,8 @@
 import {RANKS, SUIT_COLORS, SUIT_SYMBOLS, SUITS} from './constants.mjs';
 
 class CardSelect extends HTMLElement {
+    #disabledCards = new Set();
+
     connectedCallback() {
         const form = this.shadowRoot.querySelector('form');
 
@@ -11,6 +13,9 @@ class CardSelect extends HTMLElement {
             input.name = 'suit';
             input.value = suit;
             input.ariaLabel = suit;
+            input.addEventListener('change', () => {
+                this.update();
+            });
 
             const icon = document.createElement('span');
             icon.innerText = SUIT_SYMBOLS[suit];
@@ -29,11 +34,12 @@ class CardSelect extends HTMLElement {
             input.type = 'radio';
             input.name = 'rank';
             input.value = rank;
-            input.ariaLabel = rank;
-            input.disabled = true; // Rank selection is disabled until a suit is selected
+            input.addEventListener('change', () => {
+                this.update();
+            });
 
             const card = document.createElement('playing-card');
-            card.setAttribute('rank', '0');
+            card.setAttribute('rank', '');
             card.setAttribute('borderline', '0');
             card.setAttribute('borderradius', '0');
 
@@ -46,35 +52,7 @@ class CardSelect extends HTMLElement {
 
         const guessButton = document.createElement('button');
         guessButton.innerText = 'Make guess';
-        guessButton.disabled = true;
         ranksContainer.append(guessButton);
-
-        const suitInputs = suitsContainer.querySelectorAll('input');
-        const rankInputs = ranksContainer.querySelectorAll('input');
-
-        suitInputs.forEach((suitInput) => {
-            suitInput.addEventListener('change', () => {
-                rankInputs.forEach((rankInput) => {
-                    const label = rankInput.parentElement;
-                    const card = label.querySelector('playing-card');
-
-                    const suit = suitInput.value;
-                    const rank = rankInput.value;
-
-                    card.setAttribute('suit', suit);
-                    card.setAttribute('rank', rank);
-                    label.title = `${rank} of ${suit}`;
-                    rankInput.ariaLabel = `${rank} of ${suit}`;
-                    rankInput.disabled = false;
-                });
-            });
-        });
-
-        rankInputs.forEach((rankInput) => {
-            rankInput.addEventListener('change', () => {
-                guessButton.disabled = false;
-            });
-        });
 
         form.addEventListener('submit', (e) => {
             e.preventDefault();
@@ -90,7 +68,53 @@ class CardSelect extends HTMLElement {
                 },
             });
             this.dispatchEvent(event);
+
+            // Deselect guessed card
+            const checkedRankInput = this.shadowRoot.querySelector('input[name=rank]:checked');
+            if (checkedRankInput) {
+                checkedRankInput.checked = false;
+            }
         });
+
+        this.update();
+    }
+
+    update() {
+        const form = this.shadowRoot.querySelector('form');
+        /** @type {NodeListOf<HTMLInputElement>} */
+        const rankInputs = this.shadowRoot.querySelectorAll('input[name=rank]');
+        const guessButton = this.shadowRoot.querySelector('button');
+
+        const formData = new FormData(form);
+        /** @type {string|null} */
+        const rank = formData.get('rank');
+        /** @type {string|null} */
+        const suit = formData.get('suit');
+
+        rankInputs.forEach((rankInput) => {
+            const rank = rankInput.value;
+            const label = rankInput.parentElement;
+            const card = label.querySelector('playing-card');
+
+            rankInput.disabled = suit === null || this.#disabledCards.has(`${rank}-of-${suit}`);
+
+            if (rankInput.disabled) {
+                rankInput.checked = false;
+                card.setAttribute('rank', '0');
+            } else {
+                card.setAttribute('suit', suit);
+                card.setAttribute('rank', rank);
+                label.title = `${rank} of ${suit}`;
+                rankInput.ariaLabel = `${rank} of ${suit}`;
+            }
+        });
+
+        guessButton.disabled = rank === null || suit === null;
+    }
+
+    disableCard(cid) {
+        this.#disabledCards.add(cid);
+        this.update();
     }
 }
 
