@@ -29,6 +29,10 @@ class CardSelect extends HTMLElement {
             label.classList.add(SUIT_COLORS[suit]);
             label.append(icon, input);
 
+            label.addEventListener('pointerdown', () => {
+                input.click();
+            });
+
             suitsContainer.append(label);
         });
 
@@ -52,6 +56,10 @@ class CardSelect extends HTMLElement {
             const label = document.createElement('label');
             label.title = rank;
             label.append(card, input);
+
+            label.addEventListener('pointerdown', () => {
+                input.click();
+            });
 
             ranksContainer.append(label);
         });

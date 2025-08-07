@@ -18,7 +18,6 @@ function createShuffledDeck() {
 class Game {
     #cards = createShuffledDeck();
     #gameOver = false;
-    #animationActive = false;
 
     #cardStack = document.querySelector('.card-stack');
     /** @type {CardSelect} */
@@ -49,17 +48,16 @@ class Game {
     }
 
     async guess(cid) {
-        if (this.#gameOver || this.#animationActive) {
+        if (this.#gameOver) {
             return;
         }
 
-        this.#animationActive = true;
-
+        const cardStackIndex = this.#cards.length;
         const actualCid = this.#cards.pop();
-
         const [rank,, suit] = actualCid.split('-');
-        const topCardLi = this.#cardStack.lastElementChild;
-        const topCardSizer = topCardLi.lastElementChild;
+
+        const cardLi = this.#cardStack.children.item(cardStackIndex);
+        const cardSizer = cardLi.lastElementChild;
 
         const card = document.createElement('playing-card');
         card.setAttribute('suit', suit);
@@ -67,20 +65,17 @@ class Game {
         card.setAttribute('borderline', '0');
         card.setAttribute('borderradius', '0');
         card.setAttribute('bordercolor', '0');
-        topCardSizer.append(card);
+        cardSizer.append(card);
 
-        await delay(0);
-        topCardSizer.classList.add('sizer--animate-flip');
+        cardSizer.offsetWidth; // Trigger layout, so the transition works properly
+        cardSizer.classList.add('sizer--animate-flip');
 
         const messageEl = document.querySelector('#message');
 
         if (cid === actualCid) {
             messageEl.innerText = 'Correct! You win!';
             this.#gameOver = true;
-            this.#animationActive = false;
         } else {
-            await delay(250);
-
             this.#cardSelect.disableCard(actualCid);
             if (this.#cards.length === 0) {
                 messageEl.innerText = 'Nope. Game over.';
@@ -91,13 +86,11 @@ class Game {
 
             await delay(500);
 
-            topCardSizer.classList.remove('sizer--animate-flip');
-            topCardSizer.classList.add('sizer--animate-exit');
+            cardSizer.classList.remove('sizer--animate-flip');
+            cardSizer.classList.add('sizer--animate-exit');
 
             await delay(500);
-            this.#animationActive = false;
-            topCardLi.remove();
-            messageEl.innerText = 'Guess the card';
+            cardLi.remove();
         }
     }
 }

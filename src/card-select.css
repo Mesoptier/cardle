@@ -88,6 +88,9 @@ label {
     playing-card {
         width: 100%;
         display: flex !important;
+
+        /* Avoid accidentally interacting with the image. */
+        pointer-events: none;
     }
 
     button {
