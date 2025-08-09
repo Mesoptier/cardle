@@ -1,3 +1,4 @@
+@import './card-art.css';
 @import './card-select.css';
 
 @font-face {
@@ -99,12 +100,12 @@ main {
         height: .3%;
     }
     li:nth-child(2n):not(:last-child) {
-        playing-card {
+        .face {
             border-bottom-color: hsl(0deg 0% 80%);
         }
     }
 
-    playing-card {
+    .face {
         grid-area: 1/1;
 
         display: flex !important;
@@ -124,18 +125,18 @@ main {
     }
 
     .sizer--animate-flip {
-        playing-card {
+        .face {
             transition: transform 500ms ease;
             transform: translateZ(50px) translateY(-15px) rotateY(calc(var(--flip) - 180deg));
         }
     }
 
     .sizer--animate-exit {
-        playing-card:nth-child(1) {
+        .face:nth-child(1) {
             display: none !important;
         }
 
-        playing-card {
+        .face {
             transition: transform 500ms ease, opacity 400ms ease;
             transform: translateZ(50px) rotateZ(20deg);
             transform-origin: 50% 200%;

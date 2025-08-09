@@ -92,16 +92,11 @@ class CardSelect extends HTMLElement {
                 this.rank = rank;
             });
 
-            const card = document.createElement('playing-card');
-            card.setAttribute('suit', SUITS[0])
-            card.setAttribute('rank', rank);
-            card.setAttribute('borderline', '0');
-            card.setAttribute('borderradius', '0');
-            card.setAttribute('bordercolor', 'transparent');
+            const cardArt = document.createElement('card-art');
 
             const label = document.createElement('label');
             label.title = rank;
-            label.append(card, input);
+            label.append(cardArt, input);
 
             label.addEventListener('pointerdown', () => {
                 input.click();
@@ -160,15 +155,16 @@ class CardSelect extends HTMLElement {
             rankInput.disabled = disabled || this.readOnly;
 
             const label = rankInput.parentElement;
-            const card = label.querySelector('playing-card');
 
             // Update card art
+            /** @type {CardArt} */
+            const cardArt = label.querySelector('card-art');
             if (disabled) {
-                card.setAttribute('suit', '');
-                card.setAttribute('rank', '0');
+                cardArt.face = 'back';
             } else {
-                card.setAttribute('suit', this.suit);
-                card.setAttribute('rank', rankInput.value);
+                cardArt.face = 'front';
+                cardArt.suit = this.suit;
+                cardArt.rank = rankInput.value;
             }
 
             // Update labels
@@ -178,7 +174,6 @@ class CardSelect extends HTMLElement {
             }
             label.title = title;
             rankInput.ariaLabel = title;
-            card.querySelector('img')?.setAttribute('alt', title);
         });
 
         const guessButton = this.querySelector('button');

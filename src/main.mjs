@@ -1,3 +1,4 @@
+import './card-art.mjs';
 import './card-select.mjs';
 import {RANKS, SUITS} from './constants.mjs';
 
@@ -30,15 +31,17 @@ class Game {
         });
 
         this.#cards.forEach(() => {
-            const card = document.createElement('playing-card');
-            card.setAttribute('rank', '0');
-            card.setAttribute('borderline', '0');
-            card.setAttribute('borderradius', '0');
-            card.setAttribute('bordercolor', '0');
+            /** @type {CardArt} */
+            const cardArt = document.createElement('card-art');
+            cardArt.face = 'back';
+
+            const cardFace = document.createElement('div');
+            cardFace.classList.add('face');
+            cardFace.append(cardArt);
 
             const sizer = document.createElement('div');
             sizer.classList.add('sizer');
-            sizer.append(card);
+            sizer.append(cardFace);
 
             const li = document.createElement('li');
             li.append(sizer);
@@ -59,14 +62,17 @@ class Game {
         const cardLi = this.#cardStack.children.item(cardStackIndex);
         const cardSizer = cardLi.lastElementChild;
 
-        const card = document.createElement('playing-card');
-        card.setAttribute('suit', suit);
-        card.setAttribute('rank', rank);
-        card.setAttribute('borderline', '0');
-        card.setAttribute('borderradius', '0');
-        card.setAttribute('bordercolor', '0');
-        cardSizer.append(card);
+        /** @type {CardArt} */
+        const cardArt = document.createElement('card-art');
+        cardArt.face = 'front';
+        cardArt.suit = suit;
+        cardArt.rank = rank;
 
+        const cardFace = document.createElement('div');
+        cardFace.classList.add('face');
+        cardFace.append(cardArt);
+
+        cardSizer.append(cardFace);
         cardSizer.offsetWidth; // Trigger layout, so the transition works properly
         cardSizer.classList.add('sizer--animate-flip');
 

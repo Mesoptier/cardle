@@ -1,0 +1,9 @@
+card-art {
+    width: 100%;
+    aspect-ratio: 240 / 334;
+
+    playing-card {
+        width: 100%;
+        display: flex !important;
+    }
+}
