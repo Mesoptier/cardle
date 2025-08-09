@@ -52,8 +52,8 @@ class Game {
             return;
         }
 
-        const cardStackIndex = this.#cards.length;
         const actualCid = this.#cards.pop();
+        const cardStackIndex = this.#cards.length;
         const [rank,, suit] = actualCid.split('-');
 
         const cardLi = this.#cardStack.children.item(cardStackIndex);
