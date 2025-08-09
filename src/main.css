@@ -1,5 +1,6 @@
 @import './card-art.css';
 @import './card-select.css';
+@import './card-stack.css';
 
 @font-face {
     /* By https://www.haroldsfonts.com/font/card-characters */
@@ -104,81 +105,4 @@ main {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-}
-
-.card-stack {
-    flex: 1 0 auto;
-    position: relative;
-
-    --max-width: 12rem;
-    --aspect-ratio: 0.62; /* Aspect ratio of the full 52-card stack. */
-
-    aspect-ratio: var(--aspect-ratio);
-    max-width: var(--max-width);
-    max-height: calc(var(--max-width) / var(--aspect-ratio));
-
-    display: flex;
-    flex-direction: column-reverse;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-
-    li {
-        width: 100%;
-    }
-
-    .sizer {
-        display: grid;
-        height: fit-content;
-        perspective: 1000px;
-    }
-
-    /* Create stack effect */
-    li:not(:first-child) {
-        height: .3%;
-    }
-    li:nth-child(2n):not(:last-child) {
-        .face {
-            border-bottom-color: color-mix(in lab, var(--card-border), var(--card-bg));
-        }
-    }
-
-    .face {
-        grid-area: 1/1;
-
-        display: flex !important;
-        border-radius: 8px;
-        padding: 3%;
-        border: 1px solid var(--card-border);
-        box-sizing: border-box;
-        background: var(--card-bg);
-
-        backface-visibility: hidden;
-        transform: rotateY(var(--flip));
-        --flip: 0deg;
-
-        &:nth-child(2) {
-            --flip: 180deg;
-        }
-    }
-
-    .sizer--animate-flip {
-        .face {
-            transition: transform 500ms ease;
-            transform: translateZ(50px) translateY(-15px) rotateY(calc(var(--flip) - 180deg));
-        }
-    }
-
-    .sizer--animate-exit {
-        .face:nth-child(1) {
-            display: none !important;
-        }
-
-        .face {
-            transition: transform 500ms ease, opacity 400ms ease;
-            transform: translateZ(50px) rotateZ(20deg);
-            transform-origin: 50% 200%;
-            opacity: 0;
-        }
-    }
 }
