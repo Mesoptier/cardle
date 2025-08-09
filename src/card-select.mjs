@@ -4,9 +4,13 @@ class CardSelect extends HTMLElement {
     #disabledCards = new Set();
 
     connectedCallback() {
-        const form = this.shadowRoot.querySelector('form');
+        const form = document.createElement('form');
+        this.append(form);
 
-        const suitsContainer = this.shadowRoot.querySelector('.suits');
+        const suitsContainer = document.createElement('div');
+        suitsContainer.classList.add('suits');
+        form.append(suitsContainer);
+
         SUITS.forEach((suit, index) => {
             const input = document.createElement('input');
             input.type = 'radio';
@@ -14,7 +18,7 @@ class CardSelect extends HTMLElement {
             input.value = suit;
             input.ariaLabel = suit;
             input.addEventListener('change', () => {
-                this.update();
+                this.#update();
             });
 
             if (index === 0) {
@@ -36,14 +40,17 @@ class CardSelect extends HTMLElement {
             suitsContainer.append(label);
         });
 
-        const ranksContainer = this.shadowRoot.querySelector('.ranks');
+        const ranksContainer = document.createElement('div');
+        ranksContainer.classList.add('ranks');
+        form.append(ranksContainer);
+
         RANKS.forEach((rank) => {
             const input = document.createElement('input');
             input.type = 'radio';
             input.name = 'rank';
             input.value = rank;
             input.addEventListener('change', () => {
-                this.update();
+                this.#update();
             });
 
             const card = document.createElement('playing-card');
@@ -84,22 +91,22 @@ class CardSelect extends HTMLElement {
             this.dispatchEvent(event);
 
             // Deselect guessed card
-            const checkedRankInput = this.shadowRoot.querySelector('input[name=rank]:checked');
+            const checkedRankInput = this.querySelector('input[name=rank]:checked');
             if (checkedRankInput) {
                 checkedRankInput.checked = false;
             }
 
-            this.update();
+            this.#update();
         });
 
-        this.update();
+        this.#update();
     }
 
-    update() {
-        const form = this.shadowRoot.querySelector('form');
+    #update() {
+        const form = this.querySelector('form');
         /** @type {NodeListOf<HTMLInputElement>} */
-        const rankInputs = this.shadowRoot.querySelectorAll('input[name=rank]');
-        const guessButton = this.shadowRoot.querySelector('button');
+        const rankInputs = this.querySelectorAll('input[name=rank]');
+        const guessButton = this.querySelector('button');
 
         const formData = new FormData(form);
         /** @type {string|null} */
@@ -137,7 +144,7 @@ class CardSelect extends HTMLElement {
 
     disableCard(cid) {
         this.#disabledCards.add(cid);
-        this.update();
+        this.#update();
     }
 }
 
