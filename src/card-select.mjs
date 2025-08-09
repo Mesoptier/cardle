@@ -66,6 +66,7 @@ class CardSelect extends HTMLElement {
 
             const icon = document.createElement('span');
             icon.innerText = SUIT_SYMBOLS[suit];
+            icon.ariaHidden = 'true';
 
             const label = document.createElement('label');
             label.title = suit;
@@ -93,6 +94,7 @@ class CardSelect extends HTMLElement {
             });
 
             const cardArt = document.createElement('card-art');
+            cardArt.ariaHidden = 'true';
 
             const label = document.createElement('label');
             label.title = rank;
