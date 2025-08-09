@@ -76,7 +76,10 @@ class Game {
             messageEl.innerText = 'Correct! You win!';
             this.#gameOver = true;
         } else {
-            this.#cardSelect.disableCard(actualCid);
+            // Remove card from selectable options
+            // TODO: Disable this behavior in a "Hard mode"?
+            this.#cardSelect.disabledCards = [...this.#cardSelect.disabledCards, actualCid];
+
             if (this.#cards.length === 0) {
                 messageEl.innerText = 'Nope. Game over.';
                 this.#gameOver = true;

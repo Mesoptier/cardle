@@ -1,9 +1,42 @@
 import {RANKS, SUIT_COLORS, SUIT_SYMBOLS, SUITS} from './constants.mjs';
 
 class CardSelect extends HTMLElement {
-    #disabledCards = new Set();
+    /** @type {string|null} */
+    #suitValue;
+    /** @type {string|null} */
+    #rankValue;
+    #disabledCards = [];
+
+    get suit() {
+        return this.#suitValue;
+    }
+    set suit(suitValue) {
+        this.#suitValue = suitValue;
+        this.#update();
+    }
+
+    get rank() {
+        return this.#rankValue;
+    }
+    set rank(rankValue) {
+        this.#rankValue = rankValue;
+        this.#update();
+    }
+
+    // TODO: Ideally this would use something like DOMTokenList.
+    /** @return {ReadonlyArray} */
+    get disabledCards() {
+        return this.#disabledCards;
+    }
+    set disabledCards(disabledCards) {
+        this.#disabledCards = disabledCards;
+        this.#update();
+    }
 
     connectedCallback() {
+        this.#suitValue = this.getAttribute('suit');
+        this.#rankValue = this.getAttribute('rank');
+
         const form = document.createElement('form');
         this.append(form);
 
@@ -11,19 +44,15 @@ class CardSelect extends HTMLElement {
         suitsContainer.classList.add('suits');
         form.append(suitsContainer);
 
-        SUITS.forEach((suit, index) => {
+        SUITS.forEach((suit) => {
             const input = document.createElement('input');
             input.type = 'radio';
             input.name = 'suit';
             input.value = suit;
             input.ariaLabel = suit;
             input.addEventListener('change', () => {
-                this.#update();
+                this.suit = suit;
             });
-
-            if (index === 0) {
-                input.checked = true;
-            }
 
             const icon = document.createElement('span');
             icon.innerText = SUIT_SYMBOLS[suit];
@@ -50,7 +79,7 @@ class CardSelect extends HTMLElement {
             input.name = 'rank';
             input.value = rank;
             input.addEventListener('change', () => {
-                this.#update();
+                this.rank = rank;
             });
 
             const card = document.createElement('playing-card');
@@ -103,34 +132,39 @@ class CardSelect extends HTMLElement {
     }
 
     #update() {
-        const form = this.querySelector('form');
+        /** @type {NodeListOf<HTMLInputElement>} */
+        const suitInputs = this.querySelectorAll('input[name=suit]');
+        suitInputs.forEach((suitInput) => {
+            // Update checked state
+            suitInput.checked = suitInput.value === this.suit;
+        });
+
         /** @type {NodeListOf<HTMLInputElement>} */
         const rankInputs = this.querySelectorAll('input[name=rank]');
-        const guessButton = this.querySelector('button');
-
-        const formData = new FormData(form);
-        /** @type {string|null} */
-        const rank = formData.get('rank');
-        /** @type {string|null} */
-        const suit = formData.get('suit');
-
         rankInputs.forEach((rankInput) => {
-            const rank = rankInput.value;
+            // Update disabled state
+            rankInput.disabled = this.suit === null || this.#disabledCards.includes(`${rankInput.value}-of-${this.suit}`);
+            if (rankInput.value === this.rank && rankInput.disabled) {
+                this.#rankValue = null;
+            }
+
+            // Update checked state
+            rankInput.checked = rankInput.value === this.rank;
+
             const label = rankInput.parentElement;
             const card = label.querySelector('playing-card');
 
-            rankInput.disabled = suit === null || this.#disabledCards.has(`${rank}-of-${suit}`);
-
+            // Update card art
             if (rankInput.disabled) {
-                rankInput.checked = false;
                 card.setAttribute('suit', '');
                 card.setAttribute('rank', '0');
             } else {
-                card.setAttribute('suit', suit);
-                card.setAttribute('rank', rank);
+                card.setAttribute('suit', this.suit);
+                card.setAttribute('rank', rankInput.value);
             }
 
-            let title = `${rank} of ${suit}`;
+            // Update labels
+            let title = `${rankInput.value} of ${this.suit}`;
             if (rankInput.disabled) {
                 title += ' (flipped)';
             }
@@ -139,12 +173,8 @@ class CardSelect extends HTMLElement {
             card.querySelector('img')?.setAttribute('alt', title);
         });
 
-        guessButton.disabled = rank === null || suit === null;
-    }
-
-    disableCard(cid) {
-        this.#disabledCards.add(cid);
-        this.#update();
+        const guessButton = this.querySelector('button');
+        guessButton.disabled = this.rank === null || this.suit === null;
     }
 }
 
