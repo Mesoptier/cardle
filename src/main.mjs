@@ -74,6 +74,7 @@ class Game {
 
         if (cid === actualCid) {
             messageEl.innerText = 'Correct! You win!';
+            this.#cardSelect.readOnly = true;
             this.#gameOver = true;
         } else {
             // Remove card from selectable options
@@ -82,6 +83,7 @@ class Game {
 
             if (this.#cards.length === 0) {
                 messageEl.innerText = 'Nope. Game over.';
+                this.#cardSelect.readOnly = true;
                 this.#gameOver = true;
             } else {
                 messageEl.innerText = 'Nope. Try again!';

@@ -5,31 +5,41 @@ class CardSelect extends HTMLElement {
     #suitValue;
     /** @type {string|null} */
     #rankValue;
+    // TODO: Ideally this would use something like DOMTokenList.
+    /** @type {ReadonlyArray<string>} */
     #disabledCards = [];
+    /** @type boolean */
+    #readOnly = false;
 
     get suit() {
         return this.#suitValue;
     }
-    set suit(suitValue) {
-        this.#suitValue = suitValue;
+    set suit(value) {
+        this.#suitValue = value;
         this.#update();
     }
 
     get rank() {
         return this.#rankValue;
     }
-    set rank(rankValue) {
-        this.#rankValue = rankValue;
+    set rank(value) {
+        this.#rankValue = value;
         this.#update();
     }
 
-    // TODO: Ideally this would use something like DOMTokenList.
-    /** @return {ReadonlyArray} */
     get disabledCards() {
         return this.#disabledCards;
     }
-    set disabledCards(disabledCards) {
-        this.#disabledCards = disabledCards;
+    set disabledCards(value) {
+        this.#disabledCards = value;
+        this.#update();
+    }
+
+    get readOnly() {
+        return this.#readOnly;
+    }
+    set readOnly(value) {
+        this.#readOnly = value;
         this.#update();
     }
 
@@ -135,27 +145,25 @@ class CardSelect extends HTMLElement {
         /** @type {NodeListOf<HTMLInputElement>} */
         const suitInputs = this.querySelectorAll('input[name=suit]');
         suitInputs.forEach((suitInput) => {
-            // Update checked state
             suitInput.checked = suitInput.value === this.suit;
+            suitInput.disabled = this.readOnly;
         });
 
         /** @type {NodeListOf<HTMLInputElement>} */
         const rankInputs = this.querySelectorAll('input[name=rank]');
         rankInputs.forEach((rankInput) => {
-            // Update disabled state
-            rankInput.disabled = this.suit === null || this.#disabledCards.includes(`${rankInput.value}-of-${this.suit}`);
-            if (rankInput.value === this.rank && rankInput.disabled) {
+            const disabled = this.suit === null || this.#disabledCards.includes(`${rankInput.value}-of-${this.suit}`);
+            if (rankInput.value === this.rank && disabled) {
                 this.#rankValue = null;
             }
-
-            // Update checked state
             rankInput.checked = rankInput.value === this.rank;
+            rankInput.disabled = disabled || this.readOnly;
 
             const label = rankInput.parentElement;
             const card = label.querySelector('playing-card');
 
             // Update card art
-            if (rankInput.disabled) {
+            if (disabled) {
                 card.setAttribute('suit', '');
                 card.setAttribute('rank', '0');
             } else {
@@ -165,7 +173,7 @@ class CardSelect extends HTMLElement {
 
             // Update labels
             let title = `${rankInput.value} of ${this.suit}`;
-            if (rankInput.disabled) {
+            if (disabled) {
                 title += ' (flipped)';
             }
             label.title = title;
@@ -174,7 +182,7 @@ class CardSelect extends HTMLElement {
         });
 
         const guessButton = this.querySelector('button');
-        guessButton.disabled = this.rank === null || this.suit === null;
+        guessButton.disabled = this.rank === null || this.suit === null || this.readOnly;
     }
 }
 
