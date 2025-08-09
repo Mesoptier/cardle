@@ -34,10 +34,16 @@ class CardArt extends HTMLElement {
 
     connectedCallback() {
         this.#updatePlayingCard();
+        this.#updatePlayingCardColors();
+        this.#playingCard.setAttribute('shadow', '0,0,0');
         this.#playingCard.setAttribute('borderline', '0');
         this.#playingCard.setAttribute('borderradius', '0');
         this.#playingCard.setAttribute('bordercolor', 'transparent');
         this.append(this.#playingCard);
+
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+            this.#updatePlayingCardColors();
+        });
     }
 
     #updatePlayingCard() {
@@ -52,6 +58,26 @@ class CardArt extends HTMLElement {
             this.#playingCard.setAttribute('rank', this.rank);
             img?.setAttribute('alt', `Playing card: ${this.rank} of ${this.suit}`);
         }
+    }
+
+    #updatePlayingCardColors() {
+        const computedStyle = window.getComputedStyle(this);
+        const bg = computedStyle.getPropertyValue('--card-bg');
+        const back = computedStyle.getPropertyValue('--card-back');
+        const opacity = computedStyle.getPropertyValue('--card-opacity');
+        const suitRed = computedStyle.getPropertyValue('--card-suit-red');
+        const suitBlack = computedStyle.getPropertyValue('--card-suit-black');
+        const courtRed = computedStyle.getPropertyValue('--card-court-red');
+        const courtBlack = computedStyle.getPropertyValue('--card-court-black');
+        const courtBlue = computedStyle.getPropertyValue('--card-court-blue');
+        const courtGold = computedStyle.getPropertyValue('--card-court-gold');
+
+        this.#playingCard.setAttribute('cardcolor', bg);
+        this.#playingCard.setAttribute('backcolor', back);
+        this.#playingCard.setAttribute('opacity', opacity);
+        this.#playingCard.setAttribute('courtcolors', `${courtGold},${courtRed},${courtBlue},${courtBlack},${courtBlack},4`)
+        this.#playingCard.setAttribute('suitcolor', `${suitBlack},${suitRed},${suitRed},${suitBlack}`);
+        this.#playingCard.setAttribute('rankcolor', `${suitBlack},${suitRed},${suitRed},${suitBlack}`);
     }
 }
 

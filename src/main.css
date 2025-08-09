@@ -11,16 +11,54 @@
 }
 
 :root {
-    --card-white: hsl(0deg 0% 100%);
-    --card-red: hsl(0deg 99% 60%);
-    --card-black: hsl(0deg 0% 20%);
-    --card-blue: hsl(240deg 100% 63%);
+    --highlight: hsl(240deg 100% 63%);
+
+    --button-bg: hsl(240deg 100% 63%);
+    --button-text: hsl(0deg 0% 100%);
+
+    --card-bg: hsl(0deg 0% 100%);
+    --card-back: hsl(0deg 82% 63%);
+    --card-border: hsl(0deg 0% 70%);
+    --card-border-hover: hsl(0deg 0% 40%);
+    --card-opacity: 0.95;
+
+    --card-suit-red: hsl(0deg 100% 60%);
+    --card-suit-black: hsl(0deg 0% 20%);
+
+    --card-court-red: hsl(0deg 100% 60%);
+    --card-court-black: hsl(0deg 0% 0%);
+    --card-court-blue: hsl(240deg 100% 63%);
+    --card-court-gold: hsl(48deg 71% 53%);
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --highlight: hsl(240deg 100% 78%);
+
+        --card-bg: hsl(0deg 0% 5%);
+        --card-back: hsl(0deg 62% 53%);
+        --card-border: hsl(0deg 0% 25%);
+        --card-border-hover: hsl(0deg 0% 35%);
+        --card-opacity: 1.0;
+
+        --card-suit-red: hsl(0deg 80% 60%);
+        --card-suit-black: hsl(0deg 0% 100%);
+
+        --card-court-red: hsl(0deg 80% 60%);
+        --card-court-black: hsl(0deg 0% 100%);
+        --card-court-blue: hsl(240deg 80% 63%);
+        --card-court-gold: hsl(48deg 51% 45%);
+    }
+
+    body {
+        background-color: hsl(0deg 0% 10%);
+    }
 }
 
 html {
     height: 100%;
     font-family: 'Card Characters', serif;
-    color: var(--card-black);
+    color: var(--card-suit-black);
 }
 
 body {
@@ -45,7 +83,7 @@ header {
     letter-spacing: 0.2em;
     text-transform: uppercase;
 
-    border-bottom: 1px solid color-mix(in hsl, var(--card-black), transparent 50%);
+    border-bottom: 1px solid var(--card-border);
 }
 
 main {
@@ -101,7 +139,7 @@ main {
     }
     li:nth-child(2n):not(:last-child) {
         .face {
-            border-bottom-color: hsl(0deg 0% 80%);
+            border-bottom-color: color-mix(in lab, var(--card-border), var(--card-bg));
         }
     }
 
@@ -111,9 +149,9 @@ main {
         display: flex !important;
         border-radius: 8px;
         padding: 3%;
-        border: 1px solid hsl(0deg 0% 60%);
+        border: 1px solid var(--card-border);
         box-sizing: border-box;
-        background: var(--card-white);
+        background: var(--card-bg);
 
         backface-visibility: hidden;
         transform: rotateY(var(--flip));

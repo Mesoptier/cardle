@@ -14,8 +14,8 @@ card-select {
         justify-content: center;
 
         padding: .2rem;
-        background-color: var(--card-white);
-        border: 1px solid hsl(0deg 0% 80%);
+        background-color: var(--card-bg);
+        border: 1px solid var(--card-border);
         border-radius: .3rem;
         cursor: pointer;
         user-select: none;
@@ -28,19 +28,16 @@ card-select {
         }
 
         &:hover {
-            border-color: hsl(0deg 0% 60%);
-        }
-        &:active {
-            border-color: hsl(0deg 0% 40%);
+            border-color: var(--card-border-hover);
         }
 
         &:has(:focus-visible) {
-            outline: 1px solid var(--card-blue);
+            outline: 1px solid var(--highlight);
             outline-offset: 2px;
         }
 
         &:has(:disabled) {
-            border-color: hsl(0deg 0% 80%);
+            border-color: var(--card-border);
             cursor: default;
         }
     }
@@ -55,16 +52,16 @@ card-select {
             color: var(--suit-color);
 
             &.red {
-                --suit-color: var(--card-red);
+                --suit-color: var(--card-suit-red);
             }
             &.black {
-                --suit-color: var(--card-black);
+                --suit-color: var(--card-suit-black);
             }
 
             &:has(:checked) {
                 background-color: var(--suit-color);
                 border-color: var(--suit-color);
-                color: var(--card-white);
+                color: var(--card-bg);
             }
         }
     }
@@ -76,10 +73,10 @@ card-select {
 
         label {
             &:has(:checked) {
-                border-color: var(--card-blue);
+                border-color: var(--highlight);
                 border-width: 2px;
                 margin: -1px;
-                box-shadow: 0 1px 2px 1px color-mix(in hsl, var(--card-blue) 20%, transparent);
+                box-shadow: 0 1px 2px 1px color-mix(in hsl, var(--highlight) 20%, transparent);
                 scale: 1.08;
             }
         }
@@ -92,8 +89,8 @@ card-select {
             padding: .2rem 1rem;
             border: 0;
             border-radius: .3rem;
-            background: var(--card-blue);
-            color: var(--card-white);
+            background: var(--button-bg);
+            color: var(--button-text);
             font: inherit;
             letter-spacing: 0.2em;
             /* TODO: Fluid font size */
@@ -101,15 +98,15 @@ card-select {
             cursor: pointer;
 
             &:focus-visible {
-                outline: 1px solid var(--card-blue);
+                outline: 1px solid var(--highlight);
                 outline-offset: 2px;
             }
 
             &:hover {
-                background-color: color-mix(in lab, var(--card-blue), black 10%);
+                background-color: color-mix(in lab, var(--button-bg), black 10%);
             }
             &:active {
-                background-color: color-mix(in lab, var(--card-blue), black 20%);
+                background-color: color-mix(in lab, var(--button-bg), black 20%);
             }
 
             &:disabled {
