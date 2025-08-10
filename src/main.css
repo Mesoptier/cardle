@@ -75,8 +75,6 @@ body {
 
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: stretch;
 
     background-color: var(--app-bg);
     color: var(--app-text);
@@ -194,8 +192,6 @@ main {
     flex: 1;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    box-sizing: border-box;
     margin: 1rem 0;
     gap: 1rem;
 }
@@ -208,4 +204,8 @@ main {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+}
+
+#message {
+    text-align: center;
 }
