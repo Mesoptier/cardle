@@ -2,18 +2,13 @@
 @import './card-select.css';
 @import './card-stack.css';
 
-@font-face {
-    /* By https://www.haroldsfonts.com/font/card-characters */
-    font-family: 'Card Characters';
-    src: url('fonts/CardCharacters.woff2') format('woff2');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
-}
+/* TODO: Self host font */
+@import url('https://fonts.googleapis.com/css2?family=Aleo&display=swap');
 
 :root {
     --app-bg: hsl(0deg 0% 100%);
-    --app-text: hsl(0deg 0% 20%);
+    --app-text: hsl(0deg 0% 10%);
+    --app-link: hsl(240deg 100% 63%);
     --highlight: hsl(240deg 100% 63%);
 
     --button-bg: hsl(240deg 100% 63%);
@@ -43,6 +38,7 @@
     :root {
         --app-bg: hsl(50deg 10% 10%);
         --app-text: hsl(0deg 0% 90%);
+        --app-link: hsl(240deg 100% 70%);
         --highlight: hsl(240deg 100% 70%);
 
         --icon-button-bg-hover: color-mix(in lab, var(--app-text) 12%, var(--app-bg));
@@ -67,13 +63,15 @@
 
 html {
     height: 100%;
-    font-family: 'Card Characters', serif;
+    font-family: 'Aleo', serif;
 }
 
 body {
+    --app-width: calc(min(100vw, 32rem) - 2rem);
+
     height: 100%;
     margin: 0 auto;
-    width: calc(min(100vw, 32rem) - 2rem);
+    width: var(--app-width);
 
     display: flex;
     flex-direction: column;
@@ -82,6 +80,7 @@ body {
 
     background-color: var(--app-bg);
     color: var(--app-text);
+    accent-color: var(--highlight);
 }
 
 header {
@@ -138,6 +137,56 @@ header {
                 fill: currentColor;
             }
         }
+    }
+}
+
+dialog {
+    box-sizing: border-box;
+    width: var(--app-width);
+    max-width: unset;
+    padding: 2rem;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 0.5rem;
+    box-shadow: 0 5px 10px hsl(0deg 0% 0% / 20%);
+
+    color: var(--app-text);
+    line-height: 1.4;
+
+    &::backdrop {
+        background: var(--app-bg);
+        opacity: 0.5;
+    }
+
+    h4 {
+        font: inherit;
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+        margin-bottom: 0.5rem;
+        margin-top: 2rem;
+
+        + * {
+            margin-top: 0;
+        }
+    }
+
+    a {
+        color: var(--app-link);
+    }
+
+    .credits {
+        display: flex;
+        flex-direction: column;
+        padding: 0;
+        gap: 0.2rem;
+        list-style: none;
+    }
+
+    :first-child {
+        margin-top: 0;
+    }
+    :last-child {
+        margin-bottom: 0;
     }
 }
 
