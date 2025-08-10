@@ -71,11 +71,12 @@ class CardArt extends HTMLElement {
         const courtBlack = computedStyle.getPropertyValue('--card-court-black');
         const courtBlue = computedStyle.getPropertyValue('--card-court-blue');
         const courtGold = computedStyle.getPropertyValue('--card-court-gold');
+        const courtLineWidth = computedStyle.getPropertyValue('--card-court-linewidth');
 
         this.#playingCard.setAttribute('cardcolor', bg);
         this.#playingCard.setAttribute('backcolor', back);
         this.#playingCard.setAttribute('opacity', opacity);
-        this.#playingCard.setAttribute('courtcolors', `${courtGold},${courtRed},${courtBlue},${courtBlack},${courtBlack},4`)
+        this.#playingCard.setAttribute('courtcolors', `${courtGold},${courtRed},${courtBlue},${courtBlack},${courtBlack},${courtLineWidth}`);
         this.#playingCard.setAttribute('suitcolor', `${suitBlack},${suitRed},${suitRed},${suitBlack}`);
         this.#playingCard.setAttribute('rankcolor', `${suitBlack},${suitRed},${suitRed},${suitBlack}`);
     }

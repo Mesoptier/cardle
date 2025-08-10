@@ -12,6 +12,8 @@
 }
 
 :root {
+    --app-bg: hsl(0deg 0% 100%);
+    --app-text: hsl(0deg 0% 20%);
     --highlight: hsl(240deg 100% 63%);
 
     --button-bg: hsl(240deg 100% 63%);
@@ -30,36 +32,35 @@
     --card-court-black: hsl(0deg 0% 0%);
     --card-court-blue: hsl(240deg 100% 63%);
     --card-court-gold: hsl(48deg 71% 53%);
+    --card-court-linewidth: 4;
 }
 
 @media (prefers-color-scheme: dark) {
     :root {
-        --highlight: hsl(240deg 100% 78%);
+        --app-bg: hsl(50deg 10% 10%);
+        --app-text: hsl(0deg 0% 90%);
+        --highlight: hsl(240deg 100% 70%);
 
-        --card-bg: hsl(0deg 0% 5%);
-        --card-back: hsl(0deg 62% 53%);
+        --card-bg: hsl(0deg 0% 0%);
+        --card-back: hsl(0deg 50% 35%);
         --card-border: hsl(0deg 0% 25%);
         --card-border-hover: hsl(0deg 0% 35%);
         --card-opacity: 1.0;
 
-        --card-suit-red: hsl(0deg 80% 60%);
-        --card-suit-black: hsl(0deg 0% 100%);
+        --card-suit-red: hsl(0deg 80% 45%);
+        --card-suit-black: hsl(48deg 75% 60%);
 
         --card-court-red: hsl(0deg 80% 60%);
         --card-court-black: hsl(0deg 0% 100%);
         --card-court-blue: hsl(240deg 80% 63%);
         --card-court-gold: hsl(48deg 51% 45%);
-    }
-
-    body {
-        background-color: hsl(0deg 0% 10%);
+        --card-court-linewidth: 8;
     }
 }
 
 html {
     height: 100%;
     font-family: 'Card Characters', serif;
-    color: var(--card-suit-black);
 }
 
 body {
@@ -71,6 +72,9 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: stretch;
+
+    background-color: var(--app-bg);
+    color: var(--app-text);
 }
 
 header {
