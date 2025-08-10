@@ -19,6 +19,10 @@
     --button-bg: hsl(240deg 100% 63%);
     --button-text: hsl(0deg 0% 100%);
 
+    --icon-button-bg: transparent;
+    --icon-button-bg-hover: color-mix(in lab, var(--app-text) 8%, var(--app-bg));
+    --icon-button-bg-active: color-mix(in lab, var(--app-text) 16%, var(--app-bg));
+
     --card-bg: hsl(0deg 0% 100%);
     --card-back: hsl(0deg 82% 63%);
     --card-border: hsl(0deg 0% 70%);
@@ -40,6 +44,9 @@
         --app-bg: hsl(50deg 10% 10%);
         --app-text: hsl(0deg 0% 90%);
         --highlight: hsl(240deg 100% 70%);
+
+        --icon-button-bg-hover: color-mix(in lab, var(--app-text) 12%, var(--app-bg));
+        --icon-button-bg-active: color-mix(in lab, var(--app-text) 20%, var(--app-bg));
 
         --card-bg: hsl(0deg 0% 0%);
         --card-back: hsl(0deg 50% 35%);
@@ -81,14 +88,57 @@ header {
     flex: 0;
     width: 100%;
 
+    display: grid;
+    align-items: center;
+    grid-template-areas: ". logo buttons";
+    grid-template-columns: 1fr auto 1fr;
     padding: 1rem 0 ;
     text-align: center;
 
-    font-size: 1.5rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-
     border-bottom: 1px solid var(--card-border);
+
+    .logo {
+        grid-area: logo;
+
+        margin: 0;
+        font-size: 1.5rem;
+        font-weight: normal;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+    }
+
+    .buttons {
+        grid-area: buttons;
+        display: flex;
+        flex-direction: row;
+        justify-content: end;
+        margin-block: -0.5rem;
+
+        button {
+            display: flex;
+            padding: 0.5rem;
+            appearance: none;
+            background: var(--icon-button-bg);
+            border: none;
+            border-radius: 10rem;
+            color: inherit;
+            font: inherit;
+            cursor: pointer;
+
+            &:hover {
+                background-color: var(--icon-button-bg-hover);
+            }
+            &:active {
+                background-color: var(--icon-button-bg-active);
+            }
+
+            svg {
+                width: 1.8rem;
+                height: 1.8rem;
+                fill: currentColor;
+            }
+        }
+    }
 }
 
 main {
