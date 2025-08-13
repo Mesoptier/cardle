@@ -210,6 +210,10 @@ main {
     justify-content: space-evenly;
     padding: 1rem 0;
     gap: 2rem;
+
+    figure {
+        display: contents;
+    }
 }
 
 @keyframes message-wiggle {

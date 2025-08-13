@@ -23,6 +23,7 @@ class Game {
     #gameOver = false;
 
     #cardStack = document.querySelector('.card-stack');
+    #cardStackContainer = document.querySelector('.card-stack-container');
     /** @type {CardSelect} */
     #cardSelect = document.querySelector('card-select');
 
@@ -93,6 +94,9 @@ class Game {
     async #revealTopCard(cid, index, enableConfetti = false) {
         const [rank, , suit] = cid.split('-');
         const cardLi = this.#cardStack.children.item(index);
+
+        const rankArticle = rank === 'Ace' || rank === 'Eight' ? 'an' : 'a';
+        this.#cardStackContainer.ariaLabel = `Stack of ${this.#cards.length + 1} playing cards, the top card is revealed to be ${rankArticle} ${rank} of ${suit}.`;
 
         // Discard previously revealed cards
         let nextCardLi = cardLi.nextElementSibling;
