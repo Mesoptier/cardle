@@ -106,7 +106,7 @@ class Game {
     }
 }
 
-window.game = new Game();
+new Game();
 
 function delay(timeout) {
     return new Promise((resolve) => {
