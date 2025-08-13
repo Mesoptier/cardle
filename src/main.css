@@ -198,12 +198,18 @@ main {
 
 .card-area {
     flex: 1 0 auto;
-    width: 100%;
+
+    /* Prevent overflow from discard animation on mobile devices. */
+    width: 100vw;
+    align-self: center;
+    overflow: clip visible;
 
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: space-evenly;
+    padding: 1rem 0;
+    gap: 2rem;
 }
 
 @keyframes message-wiggle {
@@ -233,6 +239,7 @@ main {
 
 .message {
     text-align: center;
+    font-size: 1.2rem;
 
     &.wiggle {
         animation: message-wiggle 250ms ease-in-out;

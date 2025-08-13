@@ -105,14 +105,14 @@ class Game {
 
         cardSizer.append(cardFace);
         cardSizer.offsetWidth; // Trigger layout, so the transition works properly
-        cardSizer.classList.add('sizer--animate-flip');
+        cardSizer.classList.add('animate-flip');
     }
 
     async #discardCard(cardLi) {
         const cardSizer = cardLi.lastElementChild;
 
-        cardSizer.classList.remove('sizer--animate-flip');
-        cardSizer.classList.add('sizer--animate-exit');
+        cardSizer.classList.remove('animate-flip');
+        cardSizer.classList.add('animate-discard');
 
         await delay(500);
         cardLi.remove();

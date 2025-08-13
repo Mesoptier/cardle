@@ -23,6 +23,26 @@
         display: grid;
         height: fit-content;
         perspective: 1000px;
+
+        &.animate-flip {
+            .face {
+                transition: transform 500ms ease;
+                transform: translateZ(50px) translateY(-15px) rotateY(calc(var(--flip) - 180deg));
+            }
+        }
+
+        &.animate-discard {
+            .face:nth-child(1) {
+                display: none !important;
+            }
+
+            .face {
+                transition: transform 500ms ease, opacity 400ms ease;
+                transform: translateZ(-50px) translateX(300px) rotateZ(20deg);
+                transform-origin: center;
+                opacity: 0;
+            }
+        }
     }
 
     /* Create stack effect */
@@ -51,26 +71,6 @@
 
         &:nth-child(2) {
             --flip: 180deg;
-        }
-    }
-
-    .sizer--animate-flip {
-        .face {
-            transition: transform 500ms ease;
-            transform: translateZ(50px) translateY(-15px) rotateY(calc(var(--flip) - 180deg));
-        }
-    }
-
-    .sizer--animate-exit {
-        .face:nth-child(1) {
-            display: none !important;
-        }
-
-        .face {
-            transition: transform 500ms ease, opacity 400ms ease;
-            transform: translateZ(50px) rotateZ(20deg);
-            transform-origin: 50% 200%;
-            opacity: 0;
         }
     }
 }

@@ -93,6 +93,7 @@ card-select {
             color: var(--button-text);
             font: inherit;
             letter-spacing: 0.2em;
+            text-transform: uppercase;
             /* TODO: Fluid font size */
 
             cursor: pointer;
