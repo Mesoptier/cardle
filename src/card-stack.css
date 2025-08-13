@@ -20,11 +20,14 @@
     }
 
     .sizer {
+        position: relative;
         display: grid;
         height: fit-content;
         perspective: 1000px;
 
         &.animate-flip {
+            z-index: 200;
+
             .face {
                 transition: transform 500ms ease;
                 transform: translateZ(50px) translateY(-15px) rotateY(calc(var(--flip) - 180deg));
@@ -32,6 +35,8 @@
         }
 
         &.animate-discard {
+            z-index: 200;
+
             .face:nth-child(1) {
                 display: none !important;
             }

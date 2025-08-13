@@ -1,6 +1,8 @@
+import confetti from 'canvas-confetti';
+
 import './card-art.mjs';
 import './card-select.mjs';
-import {FACE_RANKS, RANKS, SUIT_COLORS, SUITS} from './constants.mjs';
+import {FACE_RANKS, RANKS, SUIT_COLORS, SUIT_SYMBOLS, SUITS} from './constants.mjs';
 
 /**
  * @return {string[]}
@@ -57,7 +59,7 @@ class Game {
 
         const actualCid = this.#cards.pop();
 
-        void this.#revealTopCard(actualCid, this.#cards.length);
+        void this.#revealTopCard(actualCid, this.#cards.length, guessedCid === actualCid);
 
         if (guessedCid === actualCid) {
             this.#showMessage('Correct! You win!', 'bounce');
@@ -81,7 +83,7 @@ class Game {
         }
     }
 
-    async #revealTopCard(cid, index) {
+    async #revealTopCard(cid, index, enableConfetti = false) {
         const [rank, , suit] = cid.split('-');
         const cardLi = this.#cardStack.children.item(index);
 
@@ -106,6 +108,35 @@ class Game {
         cardSizer.append(cardFace);
         cardSizer.offsetWidth; // Trigger layout, so the transition works properly
         cardSizer.classList.add('animate-flip');
+
+        if (enableConfetti) {
+            const cardRect = cardSizer.getBoundingClientRect();
+            const computedStyle = window.getComputedStyle(cardSizer);
+            const suitRed = computedStyle.getPropertyValue('--card-suit-red');
+            const suitBlack = computedStyle.getPropertyValue('--card-suit-black');
+            const fontFamily = computedStyle.getPropertyValue('font-family');
+
+            const scalar = 3;
+
+            confetti({
+                origin: {
+                    x: (cardRect.x + cardRect.width / 2) / window.innerWidth,
+                    y: (cardRect.y + cardRect.height / 2) / window.innerHeight,
+                },
+                startVelocity: 20,
+                spread: 360,
+                gravity: 0.5,
+
+                scalar,
+                shapes: SUITS.map((suit) => confetti.shapeFromText({
+                    text: SUIT_SYMBOLS[suit],
+                    scalar: scalar * window.devicePixelRatio,
+                    color: SUIT_COLORS[suit] === 'red' ? suitRed : suitBlack,
+                    fontFamily,
+                })),
+                disableForReducedMotion: true,
+            });
+        }
     }
 
     async #discardCard(cardLi) {
@@ -173,7 +204,7 @@ function getIncorrectMessage(guessedCid, actualCid) {
     const suitSimilarity = getSuitSimilarity(guessedSuit, actualSuit);
 
     const MESSAGES_WAY_OFF = ['Not even close.', 'Way off.'];
-    const MESSAGES_NOPE = ['Nope.', 'That\'s not it.' ];
+    const MESSAGES_NOPE = ['Nope.', 'That\'s not it.'];
     const MESSAGES_CLOSE = ['Close.', 'Close, but nope.'];
     const MESSAGES_VERY_CLOSE = ['Very close!', 'Almost had it!']
 
