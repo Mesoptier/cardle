@@ -67,7 +67,7 @@ html {
 }
 
 body {
-    --app-width: calc(min(100vw, 32rem) - 2rem);
+    --app-width: min(30rem, calc(100vw - 2rem), 50vh);
 
     height: 100%;
     margin: 0 auto;
