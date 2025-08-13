@@ -62,7 +62,14 @@ class Game {
         void this.#revealTopCard(actualCid, this.#cards.length, guessedCid === actualCid);
 
         if (guessedCid === actualCid) {
-            this.#showMessage('Correct! You win!', 'bounce');
+            let correctMessage = 'Correct!';
+            if (this.#cards.length === 51) {
+                correctMessage = 'Got it in one!';
+            } else if (this.#cards.length < 5) {
+                correctMessage = 'That was close!';
+            }
+
+            this.#showMessage(`${correctMessage} You win!`, 'bounce');
             this.#gameOver = true;
         } else {
             // Remove card from selectable options
