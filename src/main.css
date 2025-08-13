@@ -206,6 +206,38 @@ main {
     justify-content: center;
 }
 
-#message {
+@keyframes message-wiggle {
+    0%, 100% {
+        translate: 0 0;
+    }
+    25%, 75% {
+        translate: -0.5em 0;
+    }
+    50% {
+        translate: 0.5em 0;
+    }
+}
+
+@keyframes message-bounce {
+    0%, 50%, 100% {
+        translate: 0 0;
+        scale: 1.0;
+    }
+    25% {
+        scale: 1.2;
+    }
+    75% {
+        scale: 1.1;
+    }
+}
+
+.message {
     text-align: center;
+
+    &.wiggle {
+        animation: message-wiggle 250ms ease-in-out;
+    }
+    &.bounce {
+        animation: message-bounce 500ms ease-in-out;
+    }
 }

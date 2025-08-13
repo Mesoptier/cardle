@@ -76,10 +76,8 @@ class Game {
         cardSizer.offsetWidth; // Trigger layout, so the transition works properly
         cardSizer.classList.add('sizer--animate-flip');
 
-        const messageEl = document.querySelector('#message');
-
         if (cid === actualCid) {
-            messageEl.innerText = 'Correct! You win!';
+            this.#showMessage('Correct! You win!', 'bounce');
             this.#cardSelect.readOnly = true;
             this.#gameOver = true;
         } else {
@@ -88,11 +86,11 @@ class Game {
             this.#cardSelect.disabledCards = [...this.#cardSelect.disabledCards, actualCid];
 
             if (this.#cards.length === 0) {
-                messageEl.innerText = 'Nope. Game over.';
+                this.#showMessage('Nope. Game over!', 'wiggle');
                 this.#cardSelect.readOnly = true;
                 this.#gameOver = true;
             } else {
-                messageEl.innerText = 'Nope. Try again!';
+                this.#showMessage('Nope. Try again!', 'wiggle');
             }
 
             await delay(500);
@@ -102,6 +100,17 @@ class Game {
 
             await delay(500);
             cardLi.remove();
+        }
+    }
+
+    #showMessage(message, animationClass = null) {
+        const messageEl = document.querySelector('.message');
+        messageEl.innerText = message;
+        messageEl.classList.remove('wiggle', 'bounce');
+
+        if (animationClass) {
+            messageEl.offsetWidth;
+            messageEl.classList.add(animationClass);
         }
     }
 }
