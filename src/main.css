@@ -409,8 +409,4 @@ main button {
         /* Hide by default. */
         display: none;
     }
-
-    p {
-        margin: 0;
-    }
 }

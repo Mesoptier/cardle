@@ -66,14 +66,20 @@ export class Game {
         void this.#revealTopCard(actualCid, this.#cards.length, guessedCid === actualCid);
 
         if (guessedCid === actualCid) {
-            let correctMessage = 'Correct!';
-            if (this.#cards.length === 51) {
-                correctMessage = 'Got it in one!';
+            let correctMessage;
+            if (this.#cards.length === 0) {
+                correctMessage = 'Phew, you guessed it on the last one!';
             } else if (this.#cards.length < 5) {
-                correctMessage = 'That was close!';
+                correctMessage = 'You guessed it! That was close!';
+            } else if (this.#cards.length === 51) {
+                correctMessage = 'You guessed it! Got it in one!';
+            } else if (this.#cards.length > 40) {
+                correctMessage = 'You guessed it! That was quick!';
+            } else {
+                correctMessage = 'You guessed it!';
             }
 
-            this.#showMessage(`${correctMessage} You win!`, 'bounce');
+            this.#showMessage(correctMessage, 'bounce');
             this.#gameOver = true;
         } else {
             if (!this.#hardMode) {
