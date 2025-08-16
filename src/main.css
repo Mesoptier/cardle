@@ -6,14 +6,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Aleo&display=swap');
 
 :root {
-    --app-bg: hsl(0deg 0% 100%);
-    --app-text: hsl(0deg 0% 10%);
-    --app-link: hsl(240deg 100% 63%);
-    --highlight: hsl(240deg 100% 63%);
-
-    --button-bg: hsl(240deg 100% 63%);
-    --button-text: hsl(0deg 0% 100%);
-
     --icon-button-bg: transparent;
     --icon-button-bg-hover: color-mix(in lab, var(--app-text) 8%, var(--app-bg));
     --icon-button-bg-active: color-mix(in lab, var(--app-text) 16%, var(--app-bg));
@@ -26,6 +18,16 @@
     --control-border-hover: var(--card-border-hover);
     --control-bg-selected: color-mix(in lab, var(--highlight) 5%, var(--card-bg));
     --control-border-selected: var(--highlight);
+}
+
+:root[data-theme='light'] {
+    --app-bg: hsl(0deg 0% 100%);
+    --app-text: hsl(0deg 0% 10%);
+    --app-link: hsl(240deg 100% 63%);
+    --highlight: hsl(240deg 100% 63%);
+
+    --button-bg: hsl(240deg 100% 63%);
+    --button-text: hsl(0deg 0% 100%);
 
     --card-bg: hsl(0deg 0% 100%);
     --card-back: hsl(0deg 82% 63%);
@@ -43,33 +45,31 @@
     --card-court-linewidth: 4;
 }
 
-@media (prefers-color-scheme: dark) {
-    :root {
-        --app-bg: hsl(50deg 10% 10%);
-        --app-text: hsl(0deg 0% 90%);
-        --app-link: hsl(240deg 100% 70%);
-        --highlight: hsl(240deg 100% 70%);
+:root[data-theme='dark'] {
+    --app-bg: hsl(50deg 10% 10%);
+    --app-text: hsl(0deg 0% 90%);
+    --app-link: hsl(240deg 100% 70%);
+    --highlight: hsl(240deg 100% 70%);
 
-        --icon-button-bg-hover: color-mix(in lab, var(--app-text) 12%, var(--app-bg));
-        --icon-button-bg-active: color-mix(in lab, var(--app-text) 20%, var(--app-bg));
+    --icon-button-bg-hover: color-mix(in lab, var(--app-text) 12%, var(--app-bg));
+    --icon-button-bg-active: color-mix(in lab, var(--app-text) 20%, var(--app-bg));
 
-        --control-bg-selected: color-mix(in lab, var(--highlight) 20%, var(--card-bg));
+    --control-bg-selected: color-mix(in lab, var(--highlight) 20%, var(--card-bg));
 
-        --card-bg: hsl(0deg 0% 0%);
-        --card-back: hsl(0deg 50% 35%);
-        --card-border: hsl(0deg 0% 25%);
-        --card-border-hover: hsl(0deg 0% 35%);
-        --card-opacity: 1.0;
+    --card-bg: hsl(0deg 0% 0%);
+    --card-back: hsl(0deg 50% 35%);
+    --card-border: hsl(0deg 0% 25%);
+    --card-border-hover: hsl(0deg 0% 35%);
+    --card-opacity: 1.0;
 
-        --card-suit-red: hsl(0deg 80% 45%);
-        --card-suit-black: hsl(48deg 75% 60%);
+    --card-suit-red: hsl(0deg 80% 45%);
+    --card-suit-black: hsl(48deg 75% 60%);
 
-        --card-court-red: hsl(0deg 80% 60%);
-        --card-court-black: hsl(0deg 0% 100%);
-        --card-court-blue: hsl(240deg 80% 63%);
-        --card-court-gold: hsl(48deg 51% 45%);
-        --card-court-linewidth: 8;
-    }
+    --card-court-red: hsl(0deg 80% 60%);
+    --card-court-black: hsl(0deg 0% 100%);
+    --card-court-blue: hsl(240deg 80% 63%);
+    --card-court-gold: hsl(48deg 51% 45%);
+    --card-court-linewidth: 8;
 }
 
 html {

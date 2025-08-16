@@ -14,6 +14,7 @@ class SettingsManager {
     }
 
     set theme(value) {
+        window.updateTheme(value);
         this.#storage.setItem('theme', value);
     }
 

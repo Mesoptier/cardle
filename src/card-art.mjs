@@ -41,8 +41,13 @@ class CardArt extends HTMLElement {
         this.#playingCard.setAttribute('bordercolor', 'transparent');
         this.append(this.#playingCard);
 
-        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+        // Update colors when theme changes.
+        const observer = new MutationObserver(() => {
             this.#updatePlayingCardColors();
+        });
+        observer.observe(document.documentElement, {
+            attributes: true,
+            attributeFilter: ['data-theme'],
         });
     }
 
