@@ -6,6 +6,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Aleo&display=swap');
 
 :root {
+    --button-bg: hsl(240deg 100% 63%);
+    --button-text: hsl(0deg 0% 100%);
+
     --icon-button-bg: transparent;
     --icon-button-bg-hover: color-mix(in lab, var(--app-text) 8%, var(--app-bg));
     --icon-button-bg-active: color-mix(in lab, var(--app-text) 16%, var(--app-bg));
@@ -25,9 +28,6 @@
     --app-text: hsl(0deg 0% 10%);
     --app-link: hsl(240deg 100% 63%);
     --highlight: hsl(240deg 100% 63%);
-
-    --button-bg: hsl(240deg 100% 63%);
-    --button-text: hsl(0deg 0% 100%);
 
     --card-bg: hsl(0deg 0% 100%);
     --card-back: hsl(0deg 82% 63%);
