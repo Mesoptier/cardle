@@ -1,7 +1,6 @@
 import confetti from 'canvas-confetti';
 
 import {FACE_RANKS, RANKS, SUIT_COLORS, SUIT_SYMBOLS, SUITS} from './constants.mjs';
-import {delay} from './helpers.js';
 
 /**
  * @return {string[]}
@@ -106,7 +105,7 @@ export class Game {
         // Discard previously revealed cards
         let nextCardLi = cardLi.nextElementSibling;
         while (nextCardLi) {
-            void this.#discardCard(nextCardLi);
+            this.#discardCard(nextCardLi);
             nextCardLi = nextCardLi.nextElementSibling;
         }
 
@@ -155,14 +154,15 @@ export class Game {
         }
     }
 
-    async #discardCard(cardLi) {
+    #discardCard(cardLi) {
         const cardSizer = cardLi.lastElementChild;
 
         cardSizer.classList.remove('animate-flip');
         cardSizer.classList.add('animate-discard');
 
-        await delay(500);
-        cardLi.remove();
+        setTimeout(() => {
+            cardLi.remove();
+        }, 500);
     }
 
     #showMessage(message, animationClass = null) {
