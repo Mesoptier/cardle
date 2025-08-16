@@ -264,28 +264,14 @@ main {
     flex: 1;
     display: flex;
     flex-direction: column;
-    margin: 1rem 0;
+    padding: 1rem 0;
     gap: 1rem;
-}
-
-.card-area {
-    flex: 1 0 auto;
-
-    /* Prevent overflow from discard animation on mobile devices. */
-    width: 100vw;
-    align-self: center;
-    overflow: clip visible;
-
-    display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: space-evenly;
-    padding: 1rem 0;
-    gap: 2rem;
+}
 
-    figure {
-        display: contents;
-    }
+figure {
+    display: contents;
 }
 
 @keyframes message-wiggle {
@@ -314,6 +300,7 @@ main {
 }
 
 .message {
+    margin: 0;
     text-align: center;
     font-size: 1.2rem;
 

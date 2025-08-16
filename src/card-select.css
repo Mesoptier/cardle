@@ -70,6 +70,7 @@ card-select {
         display: grid;
         grid-template-columns: repeat(5, 1fr);
         gap: .5rem;
+        align-items: center;
 
         label {
             &:has(:checked) {
