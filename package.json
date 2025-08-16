@@ -4,7 +4,7 @@
   "description": "",
   "source": "src/index.html",
   "scripts": {
-    "serve": "web-dev-server --node-resolve --root-dir src/",
+    "serve": "web-dev-server --node-resolve --watch --root-dir src/",
     "build": "parcel build"
   },
   "devDependencies": {
