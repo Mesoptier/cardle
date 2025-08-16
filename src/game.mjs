@@ -20,13 +20,16 @@ function createShuffledDeck() {
 export class Game {
     #cards = createShuffledDeck();
     #gameOver = false;
+    #hardMode;
 
     #cardStack = document.querySelector('.card-stack');
     #cardStackContainer = document.querySelector('.card-stack-container');
     /** @type {CardSelect} */
     #cardSelect = document.querySelector('card-select');
 
-    constructor() {
+    constructor(hardMode) {
+        this.#hardMode = hardMode;
+
         this.#cardSelect.addEventListener('guess', (e) => {
             const {rank, suit} = e.detail;
             this.guess(`${rank}-of-${suit}`);
@@ -57,6 +60,8 @@ export class Game {
             return;
         }
 
+        // TODO: Disallow more than 2 subsequent guesses of the same card in hard mode.
+
         const actualCid = this.#cards.pop();
 
         void this.#revealTopCard(actualCid, this.#cards.length, guessedCid === actualCid);
@@ -72,9 +77,10 @@ export class Game {
             this.#showMessage(`${correctMessage} You win!`, 'bounce');
             this.#gameOver = true;
         } else {
-            // Remove card from selectable options
-            // TODO: Disable this behavior in a "Hard mode"?
-            this.#cardSelect.disabledCards = [...this.#cardSelect.disabledCards, actualCid];
+            if (!this.#hardMode) {
+                // Remove card from selectable options
+                this.#cardSelect.disabledCards = [...this.#cardSelect.disabledCards, actualCid];
+            }
 
             const incorrectMessage = getIncorrectMessage(guessedCid, actualCid);
             const continueMessage = this.#cards.length === 0 ? 'Game over!' : 'Try again!';

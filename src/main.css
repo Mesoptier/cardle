@@ -18,6 +18,15 @@
     --icon-button-bg-hover: color-mix(in lab, var(--app-text) 8%, var(--app-bg));
     --icon-button-bg-active: color-mix(in lab, var(--app-text) 16%, var(--app-bg));
 
+    --dialog-bg: var(--card-bg);
+    --dialog-border: var(--card-border);
+
+    --control-bg: var(--card-bg);
+    --control-border: var(--card-border);
+    --control-border-hover: var(--card-border-hover);
+    --control-bg-selected: color-mix(in lab, var(--highlight) 5%, var(--card-bg));
+    --control-border-selected: var(--highlight);
+
     --card-bg: hsl(0deg 0% 100%);
     --card-back: hsl(0deg 82% 63%);
     --card-border: hsl(0deg 0% 70%);
@@ -43,6 +52,8 @@
 
         --icon-button-bg-hover: color-mix(in lab, var(--app-text) 12%, var(--app-bg));
         --icon-button-bg-active: color-mix(in lab, var(--app-text) 20%, var(--app-bg));
+
+        --control-bg-selected: color-mix(in lab, var(--highlight) 20%, var(--card-bg));
 
         --card-bg: hsl(0deg 0% 0%);
         --card-back: hsl(0deg 50% 35%);
@@ -143,8 +154,8 @@ dialog {
     width: var(--app-width);
     max-width: unset;
     padding: 2rem;
-    background: var(--card-bg);
-    border: 1px solid var(--card-border);
+    background: var(--dialog-bg);
+    border: 1px solid var(--dialog-border);
     border-radius: 0.5rem;
     box-shadow: 0 5px 10px hsl(0deg 0% 0% / 20%);
 
@@ -154,6 +165,67 @@ dialog {
     &::backdrop {
         background: var(--app-bg);
         opacity: 0.5;
+    }
+
+    fieldset {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 2rem 0 0;
+        padding: 0;
+        border: 0;
+
+        legend {
+            margin-inline: auto;
+
+            * {
+                margin-top: 0;
+            }
+        }
+
+        ul {
+            display: flex;
+            flex-direction: row;
+            gap: 0.5rem;
+
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        label {
+            display: flex;
+            padding: 0.5rem 0.75rem;
+            gap: 0.5rem;
+
+            background-color: var(--control-bg);
+            border: 1px solid var(--control-border);
+            border-radius: 0.5rem;
+
+            cursor: pointer;
+
+            &:hover {
+                border-color: var(--control-border-hover);
+            }
+            &:has(:checked) {
+                border-color: var(--control-border-selected);
+                background-color: var(--control-bg-selected);
+            }
+
+            input {
+                margin: 0;
+                cursor: inherit;
+            }
+        }
+
+        .help-text {
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
     }
 
     h4 {
@@ -180,10 +252,10 @@ dialog {
         list-style: none;
     }
 
-    :first-child {
+    > :first-child {
         margin-top: 0;
     }
-    :last-child {
+    > :last-child {
         margin-bottom: 0;
     }
 }
