@@ -1,4 +1,4 @@
-import {RANKS, SUIT_COLORS, SUIT_SYMBOLS, SUITS} from './constants.mjs';
+import { RANKS, SUIT_COLORS, SUIT_SYMBOLS, SUITS } from './constants.mjs';
 
 class CardSelect extends HTMLElement {
     /** @type {string|null} */
@@ -14,6 +14,7 @@ class CardSelect extends HTMLElement {
     get suit() {
         return this.#suitValue;
     }
+
     set suit(value) {
         this.#suitValue = value;
         this.#update();
@@ -22,6 +23,7 @@ class CardSelect extends HTMLElement {
     get rank() {
         return this.#rankValue;
     }
+
     set rank(value) {
         this.#rankValue = value;
         this.#update();
@@ -30,6 +32,7 @@ class CardSelect extends HTMLElement {
     get disabledCards() {
         return this.#disabledCards;
     }
+
     set disabledCards(value) {
         this.#disabledCards = value;
         this.#update();
@@ -38,6 +41,7 @@ class CardSelect extends HTMLElement {
     get readOnly() {
         return this.#readOnly;
     }
+
     set readOnly(value) {
         this.#readOnly = value;
         this.#update();
@@ -127,7 +131,9 @@ class CardSelect extends HTMLElement {
             this.dispatchEvent(event);
 
             // Deselect guessed card
-            const checkedRankInput = this.querySelector('input[name=rank]:checked');
+            const checkedRankInput = this.querySelector(
+                'input[name=rank]:checked',
+            );
             if (checkedRankInput) {
                 checkedRankInput.checked = false;
             }
@@ -149,7 +155,11 @@ class CardSelect extends HTMLElement {
         /** @type {NodeListOf<HTMLInputElement>} */
         const rankInputs = this.querySelectorAll('input[name=rank]');
         rankInputs.forEach((rankInput) => {
-            const disabled = this.suit === null || this.#disabledCards.includes(`${rankInput.value}-of-${this.suit}`);
+            const disabled =
+                this.suit === null ||
+                this.#disabledCards.includes(
+                    `${rankInput.value}-of-${this.suit}`,
+                );
             if (rankInput.value === this.rank && disabled) {
                 this.#rankValue = null;
             }
@@ -179,7 +189,8 @@ class CardSelect extends HTMLElement {
         });
 
         const guessButton = this.querySelector('button');
-        guessButton.disabled = this.rank === null || this.suit === null || this.readOnly;
+        guessButton.disabled =
+            this.rank === null || this.suit === null || this.readOnly;
     }
 }
 

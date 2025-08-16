@@ -1,102 +1,166 @@
 <!doctype html>
 <html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <title>Cardle</title>
-    <script>
-        window.updateTheme = (theme) => {
-            document.documentElement.dataset.theme = theme === 'auto'
-                ? window.matchMedia('(prefers-color-scheme: dark)').matches
-                    ? 'dark'
-                    : 'light'
-                : theme;
-        };
+    <head>
+        <meta charset="utf-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+        />
+        <title>Cardle</title>
+        <script>
+            window.updateTheme = (theme) => {
+                document.documentElement.dataset.theme =
+                    theme === 'auto'
+                        ? window.matchMedia('(prefers-color-scheme: dark)')
+                              .matches
+                            ? 'dark'
+                            : 'light'
+                        : theme;
+            };
 
-        // Set theme on load.
-        window.updateTheme(window.localStorage.getItem('theme') ?? 'auto');
-    </script>
-    <script type="module" src="main.mjs"></script>
-    <script src="lib/elements.cardmeister.full.js" async></script>
-    <link rel="stylesheet" href="main.css">
-</head>
-<body>
-<header>
-    <h1 class="logo">Cardle</h1>
-    <div class="buttons">
-        <button title="Info" aria-label="Info" onclick="infoDialog.showModal()">
-            <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm16-40a8,8,0,0,1-8,8,16,16,0,0,1-16-16V128a8,8,0,0,1,0-16,16,16,0,0,1,16,16v40A8,8,0,0,1,144,176ZM112,84a12,12,0,1,1,12,12A12,12,0,0,1,112,84Z"></path></svg>
-        </button>
-        <button title="Options" aria-label="Options" onclick="optionsDialog.showModal()">
-            <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><path d="M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160Zm109.94-52.79a8,8,0,0,0-3.89-5.4l-29.83-17-.12-33.62a8,8,0,0,0-2.83-6.08,111.91,111.91,0,0,0-36.72-20.67,8,8,0,0,0-6.46.59L128,41.85,97.88,25a8,8,0,0,0-6.47-.6A112.1,112.1,0,0,0,54.73,45.15a8,8,0,0,0-2.83,6.07l-.15,33.65-29.83,17a8,8,0,0,0-3.89,5.4,106.47,106.47,0,0,0,0,41.56,8,8,0,0,0,3.89,5.4l29.83,17,.12,33.62a8,8,0,0,0,2.83,6.08,111.91,111.91,0,0,0,36.72,20.67,8,8,0,0,0,6.46-.59L128,214.15,158.12,231a7.91,7.91,0,0,0,3.9,1,8.09,8.09,0,0,0,2.57-.42,112.1,112.1,0,0,0,36.68-20.73,8,8,0,0,0,2.83-6.07l.15-33.65,29.83-17a8,8,0,0,0,3.89-5.4A106.47,106.47,0,0,0,237.94,107.21Zm-15,34.91-28.57,16.25a8,8,0,0,0-3,3c-.58,1-1.19,2.06-1.81,3.06a7.94,7.94,0,0,0-1.22,4.21l-.15,32.25a95.89,95.89,0,0,1-25.37,14.3L134,199.13a8,8,0,0,0-3.91-1h-.19c-1.21,0-2.43,0-3.64,0a8.08,8.08,0,0,0-4.1,1l-28.84,16.1A96,96,0,0,1,67.88,201l-.11-32.2a8,8,0,0,0-1.22-4.22c-.62-1-1.23-2-1.8-3.06a8.09,8.09,0,0,0-3-3.06l-28.6-16.29a90.49,90.49,0,0,1,0-28.26L61.67,97.63a8,8,0,0,0,3-3c.58-1,1.19-2.06,1.81-3.06a7.94,7.94,0,0,0,1.22-4.21l.15-32.25a95.89,95.89,0,0,1,25.37-14.3L122,56.87a8,8,0,0,0,4.1,1c1.21,0,2.43,0,3.64,0a8.08,8.08,0,0,0,4.1-1l28.84-16.1A96,96,0,0,1,188.12,55l.11,32.2a8,8,0,0,0,1.22,4.22c.62,1,1.23,2,1.8,3.06a8.09,8.09,0,0,0,3,3.06l28.6,16.29A90.49,90.49,0,0,1,222.9,142.12Z"></path></svg>
-        </button>
-    </div>
-    <dialog id="infoDialog" closedby="any" aria-label="Info">
-        <h4>How to play</h4>
-        <p>Guess which card is on top of the stack in as few tries as possible.</p>
-        <h4>Why make this?</h4>
-        <p>I thought it would be funny to turn the most boring non-game into a polished app with a Wordle flair.</p>
-        <h4>Credits</h4>
-        <ul class="credits">
-            <li>Made by <a href="https://koenklaren.nl">Koen Klaren</a></li>
-            <li>Card graphics by <a href="https://cardmeister.github.io/">Danny Engelman</a></li>
-            <li>Icons by <a href="https://phosphoricons.com/">Phosphor</a></li>
-            <li>Source code on <a href="https://github.com/Mesoptier/cardle">GitHub</a></li>
-        </ul>
-    </dialog>
-    <dialog id="optionsDialog" closedby="any" aria-label="Options">
-        <fieldset>
-            <legend><h4>Theme</h4></legend>
-            <ul>
-                <li>
-                    <label>
-                        <input type="radio" name="theme" value="light">
-                        Light
-                    </label>
-                </li>
-                <li>
-                    <label>
-                        <input type="radio" name="theme" value="dark">
-                        Dark
-                    </label>
-                </li>
-                <li>
-                    <label>
-                        <input type="radio" name="theme" value="auto" checked>
-                        Auto
-                    </label>
-                </li>
-            </ul>
-        </fieldset>
+            // Set theme on load.
+            window.updateTheme(window.localStorage.getItem('theme') ?? 'auto');
+        </script>
+        <script type="module" src="main.mjs"></script>
+        <script src="lib/elements.cardmeister.full.js" async></script>
+        <link rel="stylesheet" href="main.css" />
+    </head>
+    <body>
+        <header>
+            <h1 class="logo">Cardle</h1>
+            <div class="buttons">
+                <button
+                    title="Info"
+                    aria-label="Info"
+                    onclick="infoDialog.showModal()"
+                >
+                    <svg
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 256 256"
+                    >
+                        <path
+                            d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm16-40a8,8,0,0,1-8,8,16,16,0,0,1-16-16V128a8,8,0,0,1,0-16,16,16,0,0,1,16,16v40A8,8,0,0,1,144,176ZM112,84a12,12,0,1,1,12,12A12,12,0,0,1,112,84Z"
+                        ></path>
+                    </svg>
+                </button>
+                <button
+                    title="Options"
+                    aria-label="Options"
+                    onclick="optionsDialog.showModal()"
+                >
+                    <svg
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 256 256"
+                    >
+                        <path
+                            d="M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160Zm109.94-52.79a8,8,0,0,0-3.89-5.4l-29.83-17-.12-33.62a8,8,0,0,0-2.83-6.08,111.91,111.91,0,0,0-36.72-20.67,8,8,0,0,0-6.46.59L128,41.85,97.88,25a8,8,0,0,0-6.47-.6A112.1,112.1,0,0,0,54.73,45.15a8,8,0,0,0-2.83,6.07l-.15,33.65-29.83,17a8,8,0,0,0-3.89,5.4,106.47,106.47,0,0,0,0,41.56,8,8,0,0,0,3.89,5.4l29.83,17,.12,33.62a8,8,0,0,0,2.83,6.08,111.91,111.91,0,0,0,36.72,20.67,8,8,0,0,0,6.46-.59L128,214.15,158.12,231a7.91,7.91,0,0,0,3.9,1,8.09,8.09,0,0,0,2.57-.42,112.1,112.1,0,0,0,36.68-20.73,8,8,0,0,0,2.83-6.07l.15-33.65,29.83-17a8,8,0,0,0,3.89-5.4A106.47,106.47,0,0,0,237.94,107.21Zm-15,34.91-28.57,16.25a8,8,0,0,0-3,3c-.58,1-1.19,2.06-1.81,3.06a7.94,7.94,0,0,0-1.22,4.21l-.15,32.25a95.89,95.89,0,0,1-25.37,14.3L134,199.13a8,8,0,0,0-3.91-1h-.19c-1.21,0-2.43,0-3.64,0a8.08,8.08,0,0,0-4.1,1l-28.84,16.1A96,96,0,0,1,67.88,201l-.11-32.2a8,8,0,0,0-1.22-4.22c-.62-1-1.23-2-1.8-3.06a8.09,8.09,0,0,0-3-3.06l-28.6-16.29a90.49,90.49,0,0,1,0-28.26L61.67,97.63a8,8,0,0,0,3-3c.58-1,1.19-2.06,1.81-3.06a7.94,7.94,0,0,0,1.22-4.21l.15-32.25a95.89,95.89,0,0,1,25.37-14.3L122,56.87a8,8,0,0,0,4.1,1c1.21,0,2.43,0,3.64,0a8.08,8.08,0,0,0,4.1-1l28.84-16.1A96,96,0,0,1,188.12,55l.11,32.2a8,8,0,0,0,1.22,4.22c.62,1,1.23,2,1.8,3.06a8.09,8.09,0,0,0,3,3.06l28.6,16.29A90.49,90.49,0,0,1,222.9,142.12Z"
+                        ></path>
+                    </svg>
+                </button>
+            </div>
+            <dialog id="infoDialog" closedby="any" aria-label="Info">
+                <h4>How to play</h4>
+                <p>
+                    Guess which card is on top of the stack in as few tries as
+                    possible.
+                </p>
+                <h4>Why make this?</h4>
+                <p>
+                    I thought it would be funny to turn the most boring non-game
+                    into a polished app with a Wordle flair.
+                </p>
+                <h4>Credits</h4>
+                <ul class="credits">
+                    <li>
+                        Made by <a href="https://koenklaren.nl">Koen Klaren</a>
+                    </li>
+                    <li>
+                        Card graphics by
+                        <a href="https://cardmeister.github.io/"
+                            >Danny Engelman</a
+                        >
+                    </li>
+                    <li>
+                        Icons by
+                        <a href="https://phosphoricons.com/">Phosphor</a>
+                    </li>
+                    <li>
+                        Source code on
+                        <a href="https://github.com/Mesoptier/cardle">GitHub</a>
+                    </li>
+                </ul>
+            </dialog>
+            <dialog id="optionsDialog" closedby="any" aria-label="Options">
+                <fieldset>
+                    <legend><h4>Theme</h4></legend>
+                    <ul>
+                        <li>
+                            <label>
+                                <input
+                                    type="radio"
+                                    name="theme"
+                                    value="light"
+                                />
+                                Light
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input type="radio" name="theme" value="dark" />
+                                Dark
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input
+                                    type="radio"
+                                    name="theme"
+                                    value="auto"
+                                    checked
+                                />
+                                Auto
+                            </label>
+                        </li>
+                    </ul>
+                </fieldset>
 
-        <fieldset>
-            <legend><h4>Difficulty</h4></legend>
-            <label>
-                <input type="checkbox" name="hardMode" aria-describedby="hardModeDescription">
-                Hard mode
-            </label>
-            <p id="hardModeDescription" class="help-text">In hard mode, cards you've seen are not hidden in the card selector; you have to keep track of them manually.</p>
-        </fieldset>
-    </dialog>
-</header>
-<main>
-    <figure
-        class="card-stack-container"
-        aria-live="polite"
-        aria-label="Stack of 52 playing cards, the top card is not revealed."
-    >
-        <ol class="card-stack" aria-hidden="true"></ol>
-    </figure>
-    <p class="message" aria-live="polite">Guess the card!</p>
-    <div class="bottom-area">
-        <div class="card-select-container">
-            <card-select suit="Spades" rank="Ace"></card-select>
-        </div>
-        <div class="game-over-container">
-            <button>Share result</button>
-            <button>Go back</button>
-        </div>
-    </div>
-</main>
-</body>
+                <fieldset>
+                    <legend><h4>Difficulty</h4></legend>
+                    <label>
+                        <input
+                            type="checkbox"
+                            name="hardMode"
+                            aria-describedby="hardModeDescription"
+                        />
+                        Hard mode
+                    </label>
+                    <p id="hardModeDescription" class="help-text">
+                        In hard mode, cards you've seen are not hidden in the
+                        card selector; you have to keep track of them manually.
+                    </p>
+                </fieldset>
+            </dialog>
+        </header>
+        <main>
+            <figure
+                class="card-stack-container"
+                aria-live="polite"
+                aria-label="Stack of 52 playing cards, the top card is not revealed."
+            >
+                <ol class="card-stack" aria-hidden="true"></ol>
+            </figure>
+            <p class="message" aria-live="polite">Guess the card!</p>
+            <div class="bottom-area">
+                <div class="card-select-container">
+                    <card-select suit="Spades" rank="Ace"></card-select>
+                </div>
+                <div class="game-over-container">
+                    <button>Share result</button>
+                    <button>Go back</button>
+                </div>
+            </div>
+        </main>
+    </body>
 </html>

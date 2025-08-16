@@ -20,8 +20,12 @@ class SettingsManager {
 
     constructor() {
         // Bind to inputs in the Options dialog.
-        const themeInputs = document.querySelectorAll('#optionsDialog input[name=theme]');
-        const hardModeInput = document.querySelector('#optionsDialog input[name=hardMode]');
+        const themeInputs = document.querySelectorAll(
+            '#optionsDialog input[name=theme]',
+        );
+        const hardModeInput = document.querySelector(
+            '#optionsDialog input[name=hardMode]',
+        );
 
         themeInputs.forEach((input) => {
             input.checked = input.value === this.theme;

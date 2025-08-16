@@ -30,7 +30,8 @@
 
             .face {
                 transition: transform 500ms ease;
-                transform: translateZ(50px) translateY(-15px) rotateY(calc(var(--flip) - 180deg));
+                transform: translateZ(50px) translateY(-15px)
+                    rotateY(calc(var(--flip) - 180deg));
             }
         }
 
@@ -42,7 +43,9 @@
             }
 
             .face {
-                transition: transform 500ms ease, opacity 400ms ease;
+                transition:
+                    transform 500ms ease,
+                    opacity 400ms ease;
                 transform: translateZ(-50px) translateX(300px) rotateZ(20deg);
                 transform-origin: center;
                 opacity: 0;
@@ -51,12 +54,18 @@
     }
 
     /* Create stack effect */
+
     li:not(:first-child) {
-        height: .3%;
+        height: 0.3%;
     }
+
     li:nth-child(2n):not(:last-child) {
         .face {
-            border-bottom-color: color-mix(in lab, var(--card-border), var(--card-bg));
+            border-bottom-color: color-mix(
+                in lab,
+                var(--card-border),
+                var(--card-bg)
+            );
         }
     }
 

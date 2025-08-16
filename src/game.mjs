@@ -1,12 +1,20 @@
 import confetti from 'canvas-confetti';
 
-import {FACE_RANKS, RANKS, SUIT_COLORS, SUIT_SYMBOLS, SUITS} from './constants.mjs';
+import {
+    FACE_RANKS,
+    RANKS,
+    SUIT_COLORS,
+    SUIT_SYMBOLS,
+    SUITS,
+} from './constants.mjs';
 
 /**
  * @return {string[]}
  */
 function createShuffledDeck() {
-    const cards = RANKS.flatMap((rank) => SUITS.map((suit) => `${rank}-of-${suit}`));
+    const cards = RANKS.flatMap((rank) =>
+        SUITS.map((suit) => `${rank}-of-${suit}`),
+    );
 
     for (let i = cards.length - 1; i > 0; i--) {
         let j = Math.floor(Math.random() * (i + 1));
@@ -30,7 +38,7 @@ export class Game {
         this.#hardMode = hardMode;
 
         this.#cardSelect.addEventListener('guess', (e) => {
-            const {rank, suit} = e.detail;
+            const { rank, suit } = e.detail;
             this.guess(`${rank}-of-${suit}`);
         });
 
@@ -51,7 +59,7 @@ export class Game {
             li.append(sizer);
 
             this.#cardStack.append(li);
-        })
+        });
     }
 
     async guess(guessedCid) {
@@ -63,7 +71,11 @@ export class Game {
 
         const actualCid = this.#cards.pop();
 
-        void this.#revealTopCard(actualCid, this.#cards.length, guessedCid === actualCid);
+        void this.#revealTopCard(
+            actualCid,
+            this.#cards.length,
+            guessedCid === actualCid,
+        );
 
         if (guessedCid === actualCid) {
             let correctMessage;
@@ -84,12 +96,19 @@ export class Game {
         } else {
             if (!this.#hardMode) {
                 // Remove card from selectable options
-                this.#cardSelect.disabledCards = [...this.#cardSelect.disabledCards, actualCid];
+                this.#cardSelect.disabledCards = [
+                    ...this.#cardSelect.disabledCards,
+                    actualCid,
+                ];
             }
 
             const incorrectMessage = getIncorrectMessage(guessedCid, actualCid);
-            const continueMessage = this.#cards.length === 0 ? 'Game over!' : 'Try again!';
-            this.#showMessage(`${incorrectMessage} ${continueMessage}`, 'wiggle');
+            const continueMessage =
+                this.#cards.length === 0 ? 'Game over!' : 'Try again!';
+            this.#showMessage(
+                `${incorrectMessage} ${continueMessage}`,
+                'wiggle',
+            );
 
             if (this.#cards.length === 0) {
                 this.#gameOver = true;
@@ -105,17 +124,29 @@ export class Game {
 
     #showGameOverArea() {
         const bottomArea = document.querySelector('.bottom-area');
-        const cardSelectContainer = bottomArea.querySelector('.card-select-container');
-        const gameOverContainer = bottomArea.querySelector('.game-over-container');
+        const cardSelectContainer = bottomArea.querySelector(
+            '.card-select-container',
+        );
+        const gameOverContainer = bottomArea.querySelector(
+            '.game-over-container',
+        );
 
         // Measure heights
         bottomArea.classList.add('game-over');
-        const cardSelectContainerHeight = cardSelectContainer.getBoundingClientRect().height;
-        const gameOverContainerHeight = gameOverContainer.getBoundingClientRect().height;
+        const cardSelectContainerHeight =
+            cardSelectContainer.getBoundingClientRect().height;
+        const gameOverContainerHeight =
+            gameOverContainer.getBoundingClientRect().height;
 
         // Setup transition
-        bottomArea.style.setProperty('--card-select-height', `${cardSelectContainerHeight}px`);
-        bottomArea.style.setProperty('--game-over-height', `${gameOverContainerHeight}px`);
+        bottomArea.style.setProperty(
+            '--card-select-height',
+            `${cardSelectContainerHeight}px`,
+        );
+        bottomArea.style.setProperty(
+            '--game-over-height',
+            `${gameOverContainerHeight}px`,
+        );
         bottomArea.classList.add('game-over-transition');
 
         // Trigger transition
@@ -125,7 +156,10 @@ export class Game {
         cardSelectContainer.addEventListener('transitionend', (event) => {
             if (event.propertyName === 'height') {
                 cardSelectContainer.remove();
-                bottomArea.classList.remove('game-over-transition', 'game-over-transition-active');
+                bottomArea.classList.remove(
+                    'game-over-transition',
+                    'game-over-transition-active',
+                );
             }
         });
     }
@@ -163,7 +197,8 @@ export class Game {
             const cardRect = cardSizer.getBoundingClientRect();
             const computedStyle = window.getComputedStyle(cardSizer);
             const suitRed = computedStyle.getPropertyValue('--card-suit-red');
-            const suitBlack = computedStyle.getPropertyValue('--card-suit-black');
+            const suitBlack =
+                computedStyle.getPropertyValue('--card-suit-black');
             const fontFamily = computedStyle.getPropertyValue('font-family');
 
             const scalar = 3;
@@ -178,12 +213,15 @@ export class Game {
                 gravity: 0.5,
 
                 scalar,
-                shapes: SUITS.map((suit) => confetti.shapeFromText({
-                    text: SUIT_SYMBOLS[suit],
-                    scalar: scalar * window.devicePixelRatio,
-                    color: SUIT_COLORS[suit] === 'red' ? suitRed : suitBlack,
-                    fontFamily,
-                })),
+                shapes: SUITS.map((suit) =>
+                    confetti.shapeFromText({
+                        text: SUIT_SYMBOLS[suit],
+                        scalar: scalar * window.devicePixelRatio,
+                        color:
+                            SUIT_COLORS[suit] === 'red' ? suitRed : suitBlack,
+                        fontFamily,
+                    }),
+                ),
                 disableForReducedMotion: true,
             });
         }
@@ -223,7 +261,7 @@ function getRankSimilarity(guessedRank, actualRank) {
 
     const guessedIndex = RANKS.indexOf(guessedRank);
     const actualIndex = RANKS.indexOf(actualRank);
-    if (Math.abs((guessedIndex - actualIndex)) % 13 === 1) {
+    if (Math.abs(guessedIndex - actualIndex) % 13 === 1) {
         return 'RANKS_ONE_AWAY';
     }
 
@@ -247,12 +285,15 @@ function getIncorrectMessage(guessedCid, actualCid) {
     const suitSimilarity = getSuitSimilarity(guessedSuit, actualSuit);
 
     const MESSAGES_WAY_OFF = ['Not even close.', 'Way off.'];
-    const MESSAGES_NOPE = ['Nope.', 'That\'s not it.'];
+    const MESSAGES_NOPE = ['Nope.', "That's not it."];
     const MESSAGES_CLOSE = ['Close.', 'Close, but nope.'];
-    const MESSAGES_VERY_CLOSE = ['Very close!', 'Almost had it!']
+    const MESSAGES_VERY_CLOSE = ['Very close!', 'Almost had it!'];
 
     let messages = MESSAGES_NOPE;
-    if (rankSimilarity === 'RANKS_DIFFERENT' && suitSimilarity === 'SUITS_DIFFERENT') {
+    if (
+        rankSimilarity === 'RANKS_DIFFERENT' &&
+        suitSimilarity === 'SUITS_DIFFERENT'
+    ) {
         messages = MESSAGES_WAY_OFF;
     } else if (rankSimilarity === 'RANKS_SAME') {
         if (suitSimilarity === 'SUITS_SAME_COLOR') {
@@ -267,7 +308,10 @@ function getIncorrectMessage(guessedCid, actualCid) {
             messages = MESSAGES_NOPE;
         }
     } else if (rankSimilarity === 'RANKS_BOTH_FACE') {
-        if (suitSimilarity === 'SUITS_SAME' || suitSimilarity === 'SUITS_SAME_COLOR') {
+        if (
+            suitSimilarity === 'SUITS_SAME' ||
+            suitSimilarity === 'SUITS_SAME_COLOR'
+        ) {
             messages = MESSAGES_CLOSE;
         } else {
             messages = MESSAGES_NOPE;
