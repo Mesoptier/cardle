@@ -343,3 +343,74 @@ main button {
         cursor: default;
     }
 }
+
+.bottom-area {
+    display: grid;
+    align-items: center;
+    justify-items: center;
+
+    > * {
+        grid-area: 1 / 1;
+    }
+
+    /* Custom properties used for game-over transition. */
+    --card-select-height: auto;
+    --game-over-height: auto;
+
+    &.game-over-transition {
+        --half-duration: 500ms;
+
+        .card-select-container {
+            height: var(--card-select-height);
+        }
+        .game-over-container {
+            height: 0;
+            visibility: hidden;
+            opacity: 0;
+        }
+    }
+
+    &.game-over-transition-active {
+        .card-select-container {
+            height: var(--game-over-height);
+            visibility: hidden;
+            opacity: 0;
+            translate: 0 50%;
+
+            transition:
+                height calc(var(--half-duration) * 2) ease,
+                visibility var(--half-duration),
+                opacity var(--half-duration) ease,
+                translate var(--half-duration) ease;
+        }
+
+        .game-over-container {
+            height: var(--game-over-height);
+            visibility: visible;
+            opacity: 1;
+            transition:
+                height calc(var(--half-duration) * 2) ease,
+                visibility var(--half-duration) ease var(--half-duration),
+                opacity var(--half-duration) ease var(--half-duration);
+        }
+    }
+}
+
+.game-over-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 1rem;
+
+    text-align: center;
+
+    &:not(.game-over &) {
+        /* Hide by default. */
+        display: none;
+    }
+
+    p {
+        margin: 0;
+    }
+}

@@ -92,7 +92,36 @@ export class Game {
 
         if (this.#gameOver) {
             this.#cardSelect.readOnly = true;
+
+            this.#showGameOverArea();
         }
+    }
+
+    #showGameOverArea() {
+        const bottomArea = document.querySelector('.bottom-area');
+        const cardSelectContainer = bottomArea.querySelector('.card-select-container');
+        const gameOverContainer = bottomArea.querySelector('.game-over-container');
+
+        // Measure heights
+        bottomArea.classList.add('game-over');
+        const cardSelectContainerHeight = cardSelectContainer.getBoundingClientRect().height;
+        const gameOverContainerHeight = gameOverContainer.getBoundingClientRect().height;
+
+        // Setup transition
+        bottomArea.style.setProperty('--card-select-height', `${cardSelectContainerHeight}px`);
+        bottomArea.style.setProperty('--game-over-height', `${gameOverContainerHeight}px`);
+        bottomArea.classList.add('game-over-transition');
+
+        // Trigger transition
+        bottomArea.offsetWidth;
+        bottomArea.classList.add('game-over-transition-active');
+
+        cardSelectContainer.addEventListener('transitionend', (event) => {
+            if (event.propertyName === 'height') {
+                cardSelectContainer.remove();
+                bottomArea.classList.remove('game-over-transition', 'game-over-transition-active');
+            }
+        });
     }
 
     async #revealTopCard(cid, index, enableConfetti = false) {
