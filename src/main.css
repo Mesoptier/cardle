@@ -252,3 +252,35 @@ main {
         animation: message-bounce 500ms ease-in-out;
     }
 }
+
+main button {
+    appearance: none;
+    padding: 1rem 1.2rem;
+    border: 0;
+    border-radius: .3rem;
+    background: var(--button-bg);
+    color: var(--button-text);
+    font: inherit;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    /* TODO: Fluid font size */
+
+    cursor: pointer;
+
+    &:focus-visible {
+        outline: 1px solid var(--highlight);
+        outline-offset: 2px;
+    }
+
+    &:hover {
+        background-color: color-mix(in lab, var(--button-bg), black 10%);
+    }
+    &:active {
+        background-color: color-mix(in lab, var(--button-bg), black 20%);
+    }
+
+    &:disabled {
+        background-color: lightgray;
+        cursor: default;
+    }
+}
