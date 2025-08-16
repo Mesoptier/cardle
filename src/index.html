@@ -139,6 +139,8 @@
                     <p id="hardModeDescription" class="help-text">
                         In hard mode, cards you've seen are not hidden in the
                         card selector; you have to keep track of them manually.
+                        <br />
+                        (Only applies after a reload.)
                     </p>
                 </fieldset>
             </dialog>
@@ -157,8 +159,9 @@
                     <card-select suit="Spades" rank="Ace"></card-select>
                 </div>
                 <div class="game-over-container">
-                    <button>Share result</button>
-                    <button>Go back</button>
+                    <button onclick="document.location.reload();">
+                        Play again
+                    </button>
                 </div>
             </div>
         </main>
